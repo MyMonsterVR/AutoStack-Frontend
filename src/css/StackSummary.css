@@ -1,0 +1,56 @@
+.stack-summary-card {
+    background-color: #3a3a3a;
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid #2cbfa5;
+    width: 17%;
+    color: white;
+    font-family: system-ui, sans-serif;
+}
+
+.stack-summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stack-summary-title {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
+}
+
+.stack-summary-badge {
+    background-color: #2cbfa5;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.stack-summary-description {
+    margin-top: 16px;
+    font-size: 16px;
+    color: #e0e0e0;
+    line-height: 1.4;
+}
+
+.stack-summary-footer {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.stack-summary-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #ffffff22;
+    object-fit: cover;
+}
+
+.stack-summary-username {
+    font-size: 16px;
+    opacity: 0.9;
+}
