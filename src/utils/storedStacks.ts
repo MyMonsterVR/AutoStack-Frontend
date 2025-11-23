@@ -17,6 +17,5 @@ export const addToStacks = (key: number, info: StackInfo) => {
 }
 
 export const getStackInfo = (key: number): StackInfo | undefined => {
-    console.log(stackInfo);
     return stackInfo.get(key.toString());
 }

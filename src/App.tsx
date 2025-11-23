@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Global/Navbar';
 import BrowseStacks from './pages/BrowseStacks';
 import Home from './pages/Home';
@@ -16,7 +16,7 @@ function App() {
         {
             id: 1,
             name: "mern",
-            author: "John Doe",
+            author: "anton",
             authorImg: "https://example.com/johndoe.jpg",
             downloads: 1500,
             description: "Good description right?",
@@ -24,7 +24,7 @@ function App() {
         },
         {
             id: 2,
-            name: "ahh",
+            name: "test",
             author: "John Moe",
             authorImg: "https://example.com/johndoe.jpg",
             downloads: 1100,
@@ -65,21 +65,27 @@ function App() {
         addToStacks(stackInfo.id, stackInfo);
     }
 
+    const location = useLocation();
+
+    const hideLayoutOn = ["/Login", "/Register"];
+
+    const shouldHideLayout = hideLayoutOn.includes(location.pathname);
+
     return (
         <>
-            <Navbar/>
+            {!shouldHideLayout && <Navbar />}
 
             <Routes>
-                <Route path="/BrowseStacks" element={<BrowseStacks/>}/>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/Login" element={<Login/>}/>
-                <Route path="/MyAccount" element={<MyAccount/>}/>
-                <Route path="/MyStacks" element={<MyStacks/>}/>
-                <Route path="/Register" element={<Register/>}/>
-                <Route path="/UploadStacks" element={<UploadStacks/>}/>
+                <Route path="/" element={<Home />} />
+                <Route path="/BrowseStacks" element={<BrowseStacks />} />
+                <Route path="/Login" element={<Login />} />
+                <Route path="/Register" element={<Register />} />
+                <Route path="/MyAccount" element={<MyAccount />} />
+                <Route path="/MyStacks" element={<MyStacks />} />
+                <Route path="/UploadStacks" element={<UploadStacks />} />
             </Routes>
 
-            <Footer/>
+            {!shouldHideLayout && <Footer />}
         </>
     );
 }
