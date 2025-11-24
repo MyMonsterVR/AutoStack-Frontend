@@ -23,7 +23,7 @@ function BrowseStacks() {
                     <div className="browse-stack-list">
                         {
                             Array.from(stackInfo.values()).map(info => (
-                                <StackSummary id={info.id}/>
+                                <StackSummary id={info.id} key={info.id}/>
                             ))
                         }
                     </div>
@@ -34,12 +34,12 @@ function BrowseStacks() {
                     <div className="browse-stack-list">
                         {
                             Array.from(stackInfo.values()).map(info => (
-                                <StackSummary id={info.id}/>
+                                <StackSummary id={info.id} key={info.id}/>
                             ))
                         }
                         {
                             Array.from(stackInfo.values()).map(info => (
-                                <StackSummary id={info.id}/>
+                                <StackSummary id={info.id} key={info.id}/>
                             ))
                         }
                     </div>
