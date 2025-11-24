@@ -18,7 +18,7 @@ function Home() {
                 <div className="home-stack-list">
                     {
                         Array.from(stackInfo.values()).map(info => (
-                            <StackSummary id={info.id}/>
+                            <StackSummary id={info.id} key={info.id}/>
                         ))
                     }
                 </div>

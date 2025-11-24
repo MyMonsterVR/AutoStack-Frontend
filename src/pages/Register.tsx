@@ -1,12 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import '../css/Register.css';          // NEW CSS FILE
+import '../css/Register.css';
 import AutostackLogo from '../images/AutostackLogo.png';
 
 function Register() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // TODO: registration logic
+
+        console.log("register");
     }
 
     return (

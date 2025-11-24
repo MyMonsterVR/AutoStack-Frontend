@@ -1,56 +1,87 @@
 .stack-summary-card {
-    background-color: #3a3a3a;
+    position: relative;
+    background: linear-gradient(145deg, #3a3a3a, #2b2b2b 40%, #1f1f1f);
     padding: 20px;
-    border-radius: 14px;
-    border: 1px solid #2cbfa5;
-    width: 17%;
-    color: white;
-    font-family: system-ui, sans-serif;
+    border-radius: 18px;
+    border: 1px solid #2cbfa544;
+    width: 100%;
+    min-height: 170px;
+    box-sizing: border-box;
+    color: #f9fafb;
+    font-family: system-ui, -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+    transition: 0.22s ease;
 }
 
+/* subtle gradient glow on hover */
+.stack-summary-card:hover {
+    transform: translateY(-4px);
+    background: linear-gradient(145deg, #424242, #2e2e2e 40%, #1f1f1f);
+    border-color: #2cbfa5cc;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+}
+
+
+/* header */
 .stack-summary-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
 }
 
 .stack-summary-title {
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 800;
     margin: 0;
+    letter-spacing: 0.02em;
 }
 
+/* badge */
 .stack-summary-badge {
-    background-color: #2cbfa5;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 15px;
+    background: #2cbfa5;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
     font-weight: 600;
+    color: #041410;
+    white-space: nowrap;
 }
 
+/* description */
 .stack-summary-description {
-    margin-top: 16px;
-    font-size: 16px;
-    color: #e0e0e0;
-    line-height: 1.4;
+    font-size: 14px;
+    color: #e5e7eb;
+    line-height: 1.5;
 }
 
+/* footer */
 .stack-summary-footer {
-    margin-top: 24px;
+    margin-top: auto;              /* pushes footer to bottom so cards align */
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
+    font-size: 14px;
+    color: #d1d5db;
 }
 
+/* avatar */
 .stack-summary-avatar {
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background-color: #ffffff22;
     object-fit: cover;
+    border: 1px solid #2cbfa588;
 }
 
+/* username */
 .stack-summary-username {
-    font-size: 16px;
-    opacity: 0.9;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.95;
 }

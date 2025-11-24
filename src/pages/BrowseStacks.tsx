@@ -1,5 +1,8 @@
 import React from 'react';
 import '../css/BrowseStacks.css';
+import {stackInfo} from "../utils/storedStacks";
+import StackSummary from "../components/Global/StackSummary";
+
 
 function BrowseStacks() {
     return (
@@ -15,11 +18,32 @@ function BrowseStacks() {
                     </div>
                 </div>
 
-                <h2 className="browse-section-title">Most downloaded</h2>
-                <div className="browse-stack-list"></div>
+                <div className="browse-stacks-section">
+                    <h2 className="browse-section-title">Most downloaded</h2>
+                    <div className="browse-stack-list">
+                        {
+                            Array.from(stackInfo.values()).map(info => (
+                                <StackSummary id={info.id}/>
+                            ))
+                        }
+                    </div>
+                </div>
 
-                <h2 className="browse-section-title">Recent Stacks</h2>
-                <div className="browse-stack-list"></div>
+                <div className="browse-stacks-section">
+                    <h2 className="browse-section-title">Recent Stacks</h2>
+                    <div className="browse-stack-list">
+                        {
+                            Array.from(stackInfo.values()).map(info => (
+                                <StackSummary id={info.id}/>
+                            ))
+                        }
+                        {
+                            Array.from(stackInfo.values()).map(info => (
+                                <StackSummary id={info.id}/>
+                            ))
+                        }
+                    </div>
+                </div>
 
             </div>
         </div>

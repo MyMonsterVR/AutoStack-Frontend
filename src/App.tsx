@@ -1,13 +1,16 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Global/Navbar';
+
 import BrowseStacks from './pages/BrowseStacks';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import MyAccount from './pages/MyAccount';
 import MyStacks from './pages/MyStacks';
 import Register from './pages/Register';
+import Templates from './pages/Templates';
 import UploadStacks from './pages/UploadStacks';
+
 import Footer from './components/Global/Footer';
 import { addToStacks, StackInfo } from "./utils/storedStacks"
 
@@ -82,6 +85,7 @@ function App() {
                 <Route path="/Register" element={<Register />} />
                 <Route path="/MyAccount" element={<MyAccount />} />
                 <Route path="/MyStacks" element={<MyStacks />} />
+                <Route path="/templates" element={<Templates />} />
                 <Route path="/UploadStacks" element={<UploadStacks />} />
             </Routes>
 

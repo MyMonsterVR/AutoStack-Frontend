@@ -13,12 +13,8 @@ function HeroBanner() {
                 <p className="hero-subtitle">Tech stacks made easy</p>
 
                 <div className="hero-buttons">
-                    <a>
-                        <NavLink to="/BrowseStacks" className="hero-btn">Stacks</NavLink>
-                    </a>
-                    <a>
-                        <NavLink to="/templates" className="hero-btn">Templates</NavLink>
-                    </a>
+                    <NavLink to="/BrowseStacks" className="hero-btn">Stacks</NavLink>
+                    <NavLink to="/templates" className="hero-btn">Templates</NavLink>
                 </div>
             </div>
         </section>

@@ -6,6 +6,8 @@ import AutostackLogo from '../images/AutostackLogo.png';
 function Login () {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        console.log("login");
         // TODO: login logic
     }
 
