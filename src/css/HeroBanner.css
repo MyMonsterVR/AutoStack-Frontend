@@ -4,10 +4,9 @@
     background: linear-gradient(
             145deg,
             #1f1f1f,
-            #282f4a,        /* new dark blue/purple center */
+            #282f4a,
             #1f1f1f
     );
-
     display: flex;
     justify-content: center;
     align-items: center;

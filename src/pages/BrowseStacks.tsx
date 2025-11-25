@@ -1,7 +1,9 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import '../css/BrowseStacks.css';
 import {stackInfo} from "../utils/storedStacks";
 import StackSummary from "../components/Global/StackSummary";
+import AutostackLogo from "../images/AutostackLogo.png";
 
 
 function BrowseStacks() {
@@ -10,11 +12,11 @@ function BrowseStacks() {
             <div className="browse-stacks">
 
                 <div className="browse-header">
-                    <input type="text" className="browse-search" placeholder="Search"/>
+                    <input type="text" className="browse-stacks-search" placeholder="Search"/>
 
-                    <div className="browse-filters">
-                        <button className="browse-filter-btn">Popular descending</button>
-                        <button className="browse-filter-btn">Rating</button>
+                    <div className="browse-stacks-filters">
+                        <button className="browse-stacks-filter-btn">Popular descending</button>
+                        <button className="browse-stacks-filter-btn">Rating</button>
                     </div>
                 </div>
 
@@ -23,7 +25,9 @@ function BrowseStacks() {
                     <div className="browse-stack-list">
                         {
                             Array.from(stackInfo.values()).map(info => (
-                                <StackSummary id={info.id} key={info.id}/>
+                                <NavLink to={`/StackInfo/${info.id}`} key={info.id}>
+                                    <StackSummary id={info.id} />
+                                </NavLink>
                             ))
                         }
                     </div>
@@ -34,13 +38,15 @@ function BrowseStacks() {
                     <div className="browse-stack-list">
                         {
                             Array.from(stackInfo.values()).map(info => (
-                                <StackSummary id={info.id} key={info.id}/>
-                            ))
+                                <NavLink to={`/StackInfo/${info.id}`} key={info.id}>
+                                    <StackSummary id={info.id} />
+                                </NavLink>                            ))
                         }
                         {
                             Array.from(stackInfo.values()).map(info => (
-                                <StackSummary id={info.id} key={info.id}/>
-                            ))
+                                <NavLink to={`/StackInfo/${info.id}`} key={info.id}>
+                                    <StackSummary id={info.id} />
+                                </NavLink>                            ))
                         }
                     </div>
                 </div>

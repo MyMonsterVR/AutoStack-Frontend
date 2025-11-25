@@ -3,6 +3,7 @@ import HeroBanner from '../components/Home/HeroBanner';
 import StackSummary from '../components/Global/StackSummary';
 import '../css/Home.css';
 import { stackInfo } from '../utils/storedStacks';
+import {NavLink} from "react-router-dom";
 
 function Home() {
   return (
@@ -18,7 +19,9 @@ function Home() {
                 <div className="home-stack-list">
                     {
                         Array.from(stackInfo.values()).map(info => (
-                            <StackSummary id={info.id} key={info.id}/>
+                            <NavLink to={`/StackInfo/${info.id}`} key={info.id}>
+                                <StackSummary id={info.id} />
+                            </NavLink>
                         ))
                     }
                 </div>

@@ -9,14 +9,14 @@
 }
 
 /* ---------- HEADER ---------- */
-.browse-header {
+.browse-template-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 35px;
 }
 
-.browse-stacks-search {
+.browse-template-search {
     width: 340px;
     padding: 10px 16px;
     font-size: 15px;
@@ -27,23 +27,23 @@
     transition: 0.2s ease;
 }
 
-.browse-stacks-search::placeholder {
+.browse-template-search::placeholder {
     color: #7c7c7c;
 }
 
-.browse-stacks-search:focus {
+.browse-template-search:focus {
     outline: none;
-    border-color: #37d6a0;
-    box-shadow: 0 0 10px #37d6a025;
+    border-color: #ef4444;
+    box-shadow: 0 0 10px #ef444425;
 }
 
 /* ---------- FILTER BUTTONS ---------- */
-.browse-stacks-filters {
+.browse-template-filters {
     display: flex;
     gap: 12px;
 }
 
-.browse-stacks-filter-btn {
+.browse-template-filter-btn {
     background: #242424;
     color: #b5b5b5;
     padding: 8px 16px;
@@ -54,14 +54,14 @@
     transition: 0.25s;
 }
 
-.browse-stacks-filter-btn:hover {
+.browse-template-filter-btn:hover {
     background: #2a2a2a;
     color: #f5f5f5;
-    border-color: #37d6a0;
+    border-color: #ef4444;
 }
 
 /* ---------- SECTION BLOCK ---------- */
-.browse-stacks-section {
+.browse-template-section {
     padding: 28px;
     background: #2a2a2a;
     border-radius: 18px;
@@ -70,7 +70,7 @@
     border: 1px solid #ffffff05;
 }
 
-.browse-section-title {
+.browse-template-section-title {
     margin: 0;
     font-size: 24px;
     font-weight: 600;
@@ -78,7 +78,7 @@
 }
 
 /* ---------- STACK GRID ---------- */
-.browse-stack-list {
+.browse-template-list {
     padding-top: 25px;
     width: 100%;
     display: grid;
