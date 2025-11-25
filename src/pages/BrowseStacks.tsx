@@ -25,7 +25,7 @@ function BrowseStacks() {
                     <div className="browse-stack-list">
                         {
                             Array.from(stackInfo.values()).map(info => (
-                                <NavLink to={`/StackInfo/${info.id}`} key={info.id}>
+                                <NavLink to={`/StackInfo/${info.id}`} key={info.id} style={{ textDecoration: 'none' }}>
                                     <StackSummary id={info.id} />
                                 </NavLink>
                             ))
@@ -38,15 +38,15 @@ function BrowseStacks() {
                     <div className="browse-stack-list">
                         {
                             Array.from(stackInfo.values()).map(info => (
-                                <NavLink to={`/StackInfo/${info.id}`} key={info.id}>
+                                <NavLink to={`/StackInfo/${info.id}`} key={info.id} style={{ textDecoration: 'none' }}>
                                     <StackSummary id={info.id} />
-                                </NavLink>                            ))
+                                </NavLink>                        ))
                         }
                         {
                             Array.from(stackInfo.values()).map(info => (
-                                <NavLink to={`/StackInfo/${info.id}`} key={info.id}>
+                                <NavLink to={`/StackInfo/${info.id}`} key={info.id} style={{ textDecoration: 'none' }}>
                                     <StackSummary id={info.id} />
-                                </NavLink>                            ))
+                                </NavLink>                          ))
                         }
                     </div>
                 </div>

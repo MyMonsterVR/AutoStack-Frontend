@@ -19,7 +19,7 @@ function Home() {
                 <div className="home-stack-list">
                     {
                         Array.from(stackInfo.values()).map(info => (
-                            <NavLink to={`/StackInfo/${info.id}`} key={info.id}>
+                            <NavLink to={`/StackInfo/${info.id}`} key={info.id} style={{ textDecoration: 'none' }}>
                                 <StackSummary id={info.id} />
                             </NavLink>
                         ))

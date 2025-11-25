@@ -12,12 +12,11 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
-
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
     transition: 0.22s ease;
+    text-decoration: none;
 }
 
-/* subtle gradient glow on hover */
 .stack-summary-card:hover {
     transform: translateY(-4px);
     background: linear-gradient(145deg, #424242, #2e2e2e 40%, #1f1f1f);
@@ -26,7 +25,6 @@
 }
 
 
-/* header */
 .stack-summary-header {
     display: flex;
     justify-content: space-between;
@@ -41,7 +39,6 @@
     letter-spacing: 0.02em;
 }
 
-/* badge */
 .stack-summary-badge {
     background: #2cbfa5;
     padding: 5px 12px;
@@ -52,16 +49,14 @@
     white-space: nowrap;
 }
 
-/* description */
 .stack-summary-description {
     font-size: 14px;
     color: #e5e7eb;
     line-height: 1.5;
 }
 
-/* footer */
 .stack-summary-footer {
-    margin-top: auto;              /* pushes footer to bottom so cards align */
+    margin-top: auto;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -69,7 +64,6 @@
     color: #d1d5db;
 }
 
-/* avatar */
 .stack-summary-avatar {
     width: 36px;
     height: 36px;
@@ -79,7 +73,6 @@
     border: 1px solid #2cbfa588;
 }
 
-/* username */
 .stack-summary-username {
     font-size: 14px;
     font-weight: 500;
