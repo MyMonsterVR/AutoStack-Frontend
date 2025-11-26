@@ -3,7 +3,7 @@ import '../css/MyStacks.css';
 import {stackInfo} from "../utils/storedStacks";
 import StackSummary from "../components/Global/StackSummary";
 
-function MyStacks() {
+function Dashboard() {
     return (
         <div className="stacks">
             <div className="my-stacks">
@@ -43,4 +43,4 @@ function MyStacks() {
     );
 }
 
-export default MyStacks;
+export default Dashboard;

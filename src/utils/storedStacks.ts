@@ -1,21 +1,26 @@
-export type Type = "Frontend" | "Backend" | "Fullstack";
+import { GUID } from "./global";
+import { StackInfo } from "./Api/Stacks";
 
-export interface StackInfo {
-    id: number,
-    name: string,
-    author: string,
-    authorImg: string,
-    downloads: number,
-    description: string,
-    type: Type
-}
+type Subscriber = () => void;
 
 export const stackInfo: Map<string, StackInfo> = new Map();
 
-export const addToStacks = (key: number, info: StackInfo) => {
-    stackInfo.set(key.toString(), info);
-}
+const subscribers = new Set<Subscriber>();
 
-export const getStackInfo = (key: number): StackInfo | undefined => {
-    return stackInfo.get(key.toString());
-}
+export const subscribeStacks = (callback: Subscriber) => {
+    subscribers.add(callback);
+    return () => subscribers.delete(callback);
+};
+
+const notifySubscribers = () => {
+    subscribers.forEach(cb => cb());
+};
+
+export const addToStacks = (key: GUID, info: StackInfo) => {
+    stackInfo.set(key.toString(), info);
+    notifySubscribers();
+};
+
+export const getStackInfo = (key: GUID): StackInfo | undefined => {
+    return stackInfo.get(key);
+};

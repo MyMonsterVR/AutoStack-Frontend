@@ -1,15 +1,16 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import {NavLink, useParams} from 'react-router-dom';
 import '../css/StackInfo.css';
-import { getStackInfo } from '../utils/storedStacks';
+import {getStackInfo, stackInfo} from '../utils/storedStacks';
+import { GUID } from "../utils/global";
+import StackSummary from "../components/Global/StackSummary";
 
 function StackInfo() {
     const { id } = useParams();
-    const numericId = Number(id);
 
-    const info = getStackInfo(numericId);
+    const stackinfo = getStackInfo(id as GUID);
 
-    if (!info) {
+    if (!stackinfo) {
         return (
             <div className="stack-info-page">
                 <div className="stack-info-empty">
@@ -24,30 +25,31 @@ function StackInfo() {
             <div className="stack-info-card">
                 <div className="stack-info-header">
                     <div className="stack-info-title">
-                        <h1 className="stack-info-name">{info.name}</h1>
+                        <h1 className="stack-info-name">{stackinfo.name}</h1>
                         <span className="stack-info-type-badge">
-                            {info.type || 'Fullstack'}
+                            {stackinfo.type || 'Fullstack'}
                         </span>
                     </div>
                     <p className="stack-info-author">
-                        {info.author || 'Unknown user'}
+                        {'Unknown user'}
                     </p>
                 </div>
 
                 <div className="stack-info-layout">
                     <div className="stack-info-left">
                         <h2 className="stack-info-packages-title">Packages</h2>
-
                         <div className="stack-info-packages-list">
-                            <p className="stack-info-no-packages">
-                                No packages added yet.
-                            </p>
+                                {stackinfo.stackInfo.map((info, idx) => (
+                                    <div className="package-name">
+                                        <span key={idx}>{info.packageName}</span>
+                                    </div>
+                                ))}
                         </div>
                     </div>
 
                     <div className="stack-info-right">
                         <p className="stack-info-description">
-                            {info.description}
+                            {stackinfo.description}
                         </p>
                     </div>
                 </div>

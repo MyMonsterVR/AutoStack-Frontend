@@ -1,14 +1,14 @@
 .stack-summary-card {
     position: relative;
     background: linear-gradient(145deg, #3a3a3a, #2b2b2b 40%, #1f1f1f);
-    padding: 20px;
+    padding: 15px;
     border-radius: 18px;
     border: 1px solid #2cbfa544;
     width: 100%;
-    min-height: 170px;
+    height: 170px;
     box-sizing: border-box;
     color: #f9fafb;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: system-ui, sans-serif;
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -24,7 +24,6 @@
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
 }
 
-
 .stack-summary-header {
     display: flex;
     justify-content: space-between;
@@ -33,10 +32,12 @@
 }
 
 .stack-summary-title {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 800;
     margin: 0;
-    letter-spacing: 0.02em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .stack-summary-badge {
@@ -53,6 +54,12 @@
     font-size: 14px;
     color: #e5e7eb;
     line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    max-width: 100%;
 }
 
 .stack-summary-footer {
@@ -68,13 +75,15 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: #ffffff22;
     object-fit: cover;
     border: 1px solid #2cbfa588;
+    background-color: #ffffff22;
 }
 
 .stack-summary-username {
     font-size: 14px;
     font-weight: 500;
-    opacity: 0.95;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

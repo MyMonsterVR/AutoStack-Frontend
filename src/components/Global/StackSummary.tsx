@@ -1,11 +1,26 @@
 import React from 'react';
 import { getStackInfo } from '../../utils/storedStacks';
 import '../../css/StackSummary.css';
+import { GUID } from "../../utils/global";
 
 
-function StackSummary(props: { id: number }): React.ReactElement<number> {
+function StackSummary(props: { id: GUID }): React.ReactElement<number> {
+
+    const TYPES: Record<number,string> = {
+        0: "Frontend",
+        1: "Backend",
+        2: "Fullstack"
+    }
 
     const stackInfo = getStackInfo(props.id);
+
+    if(!stackInfo) {
+        return <div className="stack-summary-card">
+            <p className="stack-summary-error">
+                Stack not found.
+            </p>
+        </div>;
+    }
 
     return (
         <div className="stack-summary-card">
@@ -14,7 +29,7 @@ function StackSummary(props: { id: number }): React.ReactElement<number> {
                 <h2 className="stack-summary-title">{stackInfo?.name}</h2>
 
                 <span className="stack-summary-badge">
-                    {stackInfo?.type || "Fullstack"}
+                    {TYPES[stackInfo.type as number || 2]}
                 </span>
             </div>
 
@@ -24,12 +39,12 @@ function StackSummary(props: { id: number }): React.ReactElement<number> {
 
             <div className="stack-summary-footer">
                 <img
-                    src={stackInfo?.authorImg || "/images/default-avatar.png"}
+                    src={ "/images/default-avatar.png"}
                     className="stack-summary-avatar"
                     alt="User avatar"
                 />
                 <span className="stack-summary-username">
-                    {stackInfo?.author || "Unknown user"}
+                    {"Unknown user"}
                 </span>
             </div>
 
