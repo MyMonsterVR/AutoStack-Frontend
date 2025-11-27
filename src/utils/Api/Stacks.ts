@@ -26,19 +26,19 @@ export interface PackageInfo {
     isVerified: boolean;
 }
 
-export interface StackInfo {
+export interface StackInfoType {
     id: GUID,
     name: string,
     description: string
-    type: number|"FRONTEND"|"BACKEND"|"FULLSTACK",
+    type: "FRONTEND"|"BACKEND"|"FULLSTACK",
     downloads: number,
-    stackInfo: PackageInfo[]
+    packages: PackageInfo[]
 }
 
 export interface StackResponseSuccess {
     success: boolean;
     data: {
-        items: StackInfo[];
+        items: StackInfoType[];
     },
     totalCount: number,
     pageNumber: number,
@@ -73,7 +73,7 @@ export const fetchStacks = async (
         if (pageSize !== undefined) params.append('PageSize', pageSize.toString());
 
         const queryString = params.toString();
-        const url = `/api/stack/getStacks${queryString ? `?${queryString}` : ''}`;
+        const url = `https://autostack.dk/api/stack/getStacks${queryString ? `?${queryString}` : ''}`;
 
         const response = await axios.get<StackResponse>(url);
         return response.data;
@@ -83,5 +83,21 @@ export const fetchStacks = async (
             message: error.message,
             errors: {}
         };
+    }
+};
+
+export const fetchStackById = async (id: GUID): Promise<StackInfoType | null> => {
+    try {
+        const url = `https://autostack.dk/api/stack/getstack?id=${id}`;
+        const response = await axios.get<{ success: boolean; data: StackInfoType }>(url);
+
+        if (response.data.success) {
+            return response.data.data;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching stack by ID:', error);
+        return null;
     }
 };

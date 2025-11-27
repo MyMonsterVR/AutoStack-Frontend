@@ -1,9 +1,9 @@
 import { GUID } from "./global";
-import { StackInfo } from "./Api/Stacks";
+import { StackInfoType } from "./Api/Stacks";
 
 type Subscriber = () => void;
 
-export const stackInfo: Map<string, StackInfo> = new Map();
+export const stackInfo: Map<string, StackInfoType> = new Map();
 
 const subscribers = new Set<Subscriber>();
 
@@ -16,11 +16,11 @@ const notifySubscribers = () => {
     subscribers.forEach(cb => cb());
 };
 
-export const addToStacks = (key: GUID, info: StackInfo) => {
+export const addToStacks = (key: GUID, info: StackInfoType) => {
     stackInfo.set(key.toString(), info);
     notifySubscribers();
 };
 
-export const getStackInfo = (key: GUID): StackInfo | undefined => {
+export const getStackInfo = (key: GUID): StackInfoType | undefined => {
     return stackInfo.get(key);
 };

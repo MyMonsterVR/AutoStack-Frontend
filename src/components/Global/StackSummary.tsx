@@ -6,10 +6,10 @@ import { GUID } from "../../utils/global";
 
 function StackSummary(props: { id: GUID }): React.ReactElement<number> {
 
-    const TYPES: Record<number,string> = {
-        0: "Frontend",
-        1: "Backend",
-        2: "Fullstack"
+    const TYPES: Record<string, string> = {
+        "FRONTEND": "Frontend",
+        "BACKEND": "Backend",
+        "FULLSTACK": "Fullstack"
     }
 
     const stackInfo = getStackInfo(props.id);
@@ -29,7 +29,7 @@ function StackSummary(props: { id: GUID }): React.ReactElement<number> {
                 <h2 className="stack-summary-title">{stackInfo?.name}</h2>
 
                 <span className="stack-summary-badge">
-                    {TYPES[stackInfo.type as number || 2]}
+                    {TYPES[stackInfo.type]}
                 </span>
             </div>
 

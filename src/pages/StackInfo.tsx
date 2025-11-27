@@ -1,16 +1,28 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavLink, useParams} from 'react-router-dom';
 import '../css/StackInfo.css';
-import {getStackInfo, stackInfo} from '../utils/storedStacks';
+import {addToStacks, getStackInfo, stackInfo} from '../utils/storedStacks';
 import { GUID } from "../utils/global";
 import StackSummary from "../components/Global/StackSummary";
+import {fetchStackById, fetchStacks, StackInfoType} from "../utils/Api/Stacks";
+
+
 
 function StackInfo() {
     const { id } = useParams();
+    const [stackInfo, setStackInfo] = useState({} as StackInfoType | null);
 
-    const stackinfo = getStackInfo(id as GUID);
+    useEffect(() => {
+        fetchStackById(id as GUID).then((res) => {
+            const stackInfo = res as StackInfoType;
+            setStackInfo(stackInfo);
+            console.log(stackInfo);
+        }).catch(err => {
+            console.error('fetchStacksById failed', err);
+        });
+    }, [id]);
 
-    if (!stackinfo) {
+        if (!stackInfo) {
         return (
             <div className="stack-info-page">
                 <div className="stack-info-empty">
@@ -25,9 +37,9 @@ function StackInfo() {
             <div className="stack-info-card">
                 <div className="stack-info-header">
                     <div className="stack-info-title">
-                        <h1 className="stack-info-name">{stackinfo.name}</h1>
+                        <h1 className="stack-info-name">{stackInfo.name}</h1>
                         <span className="stack-info-type-badge">
-                            {stackinfo.type || 'Fullstack'}
+                            {stackInfo.type || 'Fullstack'}
                         </span>
                     </div>
                     <p className="stack-info-author">
@@ -39,7 +51,7 @@ function StackInfo() {
                     <div className="stack-info-left">
                         <h2 className="stack-info-packages-title">Packages</h2>
                         <div className="stack-info-packages-list">
-                                {stackinfo.stackInfo.map((info, idx) => (
+                                {stackInfo.packages?.map((info, idx) => (
                                     <div className="package-name">
                                         <span key={idx}>{info.packageName}</span>
                                     </div>
@@ -49,7 +61,7 @@ function StackInfo() {
 
                     <div className="stack-info-right">
                         <p className="stack-info-description">
-                            {stackinfo.description}
+                            {stackInfo.description}
                         </p>
                     </div>
                 </div>

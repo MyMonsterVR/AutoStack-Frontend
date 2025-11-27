@@ -14,7 +14,7 @@ import UploadStacks from './pages/UploadStacks';
 
 import Footer from './components/Global/Footer';
 import { addToStacks } from "./utils/storedStacks"
-import { fetchStacks, StackInfo, StackResponseSuccess } from "./utils/Api/Stacks";
+import { fetchStacks, StackInfoType, StackResponseSuccess } from "./utils/Api/Stacks";
 import { addToTemplates, TemplateInfo } from "./utils/storedTemplates"
 
 function App() {
@@ -70,7 +70,7 @@ function App() {
         fetchStacks().then((res) => {
             if ('data' in res) {
                 const success = res as StackResponseSuccess;
-                success.data.items.forEach((stackInfo: StackInfo) => {
+                success.data.items.forEach((stackInfo: StackInfoType) => {
                     addToStacks(stackInfo.id, stackInfo);
                 });
             }

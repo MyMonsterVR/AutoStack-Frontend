@@ -14,7 +14,7 @@ function HeroBanner() {
 
                 <div className="hero-buttons">
                     <NavLink to="/BrowseStacks" className="hero-btn">Stacks</NavLink>
-                    <NavLink to="/templates" className="hero-btn">Templates</NavLink>
+                    <NavLink to="/BrowseTemplates" className="hero-btn">Templates</NavLink>
                 </div>
             </div>
         </section>
