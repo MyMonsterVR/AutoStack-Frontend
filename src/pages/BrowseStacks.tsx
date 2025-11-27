@@ -4,7 +4,6 @@ import '../css/BrowseStacks.css';
 import '../css/Global.css';
 import {stackInfo, subscribeStacks} from "../utils/storedStacks";
 import StackSummary from "../components/Global/StackSummary";
-import AutostackLogo from "../images/AutostackLogo.png";
 
 // Simple skeleton component
 function SkeletonCard() {
@@ -44,13 +43,15 @@ function BrowseStacks() {
         </NavLink>
     ));
 
-    const stackSummariesByDate = Array.from(stackInfo.values()).sort((a,b)=> {
-        return Date.parse(a.createdAt) < Date.parse(b.createdAt) ? 1 : -1;
-    }).map(info => (
-        <NavLink className="textDecoration-none" to={`/StackInfo/${info.id}`} key={info.id}>
-            <StackSummary id={info.id} />
-        </NavLink>
-    ));
+    const stackSummariesByDate = Array.from(stackInfo.values())
+        .sort((a,b)=> {
+            return Date.parse(a.createdAt) < Date.parse(b.createdAt) ? 1 : -1;
+        })
+        .map(info => (
+            <NavLink className="textDecoration-none" to={`/StackInfo/${info.id}`} key={info.id}>
+                <StackSummary id={info.id} />
+            </NavLink>
+        ));
 
     return (
         <div className="browse">

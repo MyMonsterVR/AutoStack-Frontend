@@ -40,7 +40,34 @@
     letter-spacing: 0.02em;
 }
 
+.stack-info-right-top {
+    display: flex;
+    gap: 16px;
+}
+
+
 .stack-info-type-badge {
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
+}
+
+.stack-info-type-badge-fullstack {
+    background: #2cbfa5;
+}
+
+.stack-info-type-badge-backend {
+    background: #7e28c7;
+}
+
+.stack-info-type-badge-frontend {
+    background: #ec3636;
+}
+
+.stack-info-type-install {
     background: #2cbfa5;
     padding: 6px 16px;
     border-radius: 999px;
@@ -49,6 +76,7 @@
     color: #041410;
     white-space: nowrap;
 }
+
 
 .stack-info-author {
     margin: 0;
