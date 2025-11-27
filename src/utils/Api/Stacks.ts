@@ -32,6 +32,7 @@ export interface StackInfoType {
     description: string
     type: "FRONTEND"|"BACKEND"|"FULLSTACK",
     downloads: number,
+    createdAt: string,
     packages: PackageInfo[]
 }
 

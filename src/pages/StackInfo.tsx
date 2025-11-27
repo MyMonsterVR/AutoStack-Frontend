@@ -6,8 +6,6 @@ import { GUID } from "../utils/global";
 import StackSummary from "../components/Global/StackSummary";
 import {fetchStackById, fetchStacks, StackInfoType} from "../utils/Api/Stacks";
 
-
-
 function StackInfo() {
     const { id } = useParams();
     const [stackInfo, setStackInfo] = useState({} as StackInfoType | null);

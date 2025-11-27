@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import HeroBanner from '../components/Home/HeroBanner';
 import StackSummary from '../components/Global/StackSummary';
 import '../css/Home.css';
+import '../css/Global.css'
 import {stackInfo, subscribeStacks} from '../utils/storedStacks';
 import {NavLink} from "react-router-dom";
 
