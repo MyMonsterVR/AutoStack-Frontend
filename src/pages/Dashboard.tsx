@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/MyStacks.css';
+import '../css/Dashboard.css';
 import {stackInfo} from "../utils/storedStacks";
 import StackSummary from "../components/Global/StackSummary";
 

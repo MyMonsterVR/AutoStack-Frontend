@@ -4,6 +4,12 @@ import '../../css/TemplateSummary.css';
 
 function TemplateSummary(props: { id: number }): React.ReactElement<number> {
 
+    const TYPES: Record<string, string> = {
+        "FRONTEND": "Frontend",
+        "BACKEND": "Backend",
+        "FULLSTACK": "Fullstack"
+    }
+
     const templateInfo = getToTemplates(props.id);
 
     return (
@@ -12,7 +18,7 @@ function TemplateSummary(props: { id: number }): React.ReactElement<number> {
             <div className="template-summary-header">
                 <h2 className="template-summary-title">{templateInfo?.name}</h2>
 
-                <span className="template-summary-badge">
+                <span className={`template-summary-badge template-summary-badge-${TYPES[templateInfo?.type as string]?.toLowerCase()}`}>
                     {templateInfo?.type || "Fullstack"}
                 </span>
             </div>

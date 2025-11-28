@@ -1,0 +1,120 @@
+/* ----------- PAGE WRAPPER ---------- */
+.my-account {
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: #1e1e1e;
+    padding: 50px 30px;
+    font-family: Inter, sans-serif;
+}
+
+.my-account-container {
+    max-width: 700px;
+    width: 100%;
+}
+
+/* ---------- HEADER ---------- */
+.my-account-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.my-account-title {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 600;
+    color: #f5f5f5;
+}
+
+.my-account-subtitle {
+    margin: 12px 0 0 0;
+    font-size: 15px;
+    color: #7c7c7c;
+}
+
+/* ---------- SECTION BLOCK ---------- */
+.my-account-section {
+    padding: 32px;
+    background: #2a2a2a;
+    border-radius: 18px;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 25px #00000033;
+    border: 1px solid #ffffff05;
+}
+
+.my-account-section-title {
+    margin: 0 0 24px 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: #f5f5f5;
+}
+
+/* ---------- FORM FIELDS ---------- */
+.my-account-field {
+    margin-bottom: 22px;
+}
+
+.my-account-field:last-of-type {
+    margin-bottom: 0;
+}
+
+.my-account-field label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #b5b5b5;
+}
+
+.my-account-field input {
+    width: 100%;
+    padding: 13px 18px;
+    font-size: 15px;
+    border-radius: 12px;
+    border: 1px solid #3a3a3a;
+    background: #242424;
+    color: #f5f5f5;
+    transition: 0.2s ease;
+    box-sizing: border-box;
+}
+
+.my-account-field input::placeholder {
+    color: #7c7c7c;
+}
+
+.my-account-field input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 10px #3b82f625;
+}
+
+.my-account-field input:read-only {
+    background: #1e1e1e;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* ---------- BUTTON ---------- */
+.my-account-btn {
+    background: #3b82f6;
+    color: #ffffff;
+    padding: 13px 28px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+    margin-top: 16px;
+}
+
+.my-account-btn:hover {
+    background: #2563eb;
+    box-shadow: 0 0 15px #3b82f640;
+    transform: translateY(-1px);
+}
+
+.my-account-btn:active {
+    transform: translateY(0);
+}

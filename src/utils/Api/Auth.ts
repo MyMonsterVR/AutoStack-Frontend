@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "./axiosConfig";
 
 const API_BASE_URL = "https://autostack.dk/api";
 
@@ -20,10 +21,13 @@ export const loginUser = async (username: string, password: string): Promise<Aut
             }
         );
 
+        localStorage.setItem('accessToken', response.data.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.data.refreshToken);
+
         return {
             success: true,
-            accessToken: response.data.accessToken,
-            refreshToken: response.data.refreshToken
+            accessToken: response.data.data.accessToken,
+            refreshToken: response.data.data.refreshToken
         };
     } catch (error: any) {
         return {
@@ -73,7 +77,7 @@ export const logoutUser = async (): Promise<void> => {
 
 export const refreshToken = async (): Promise<AuthResponse> => {
     try {
-        const response = await axios.post(
+        const response = await axiosInstance.post(
             `${API_BASE_URL}/refresh`,
             {},
             { withCredentials: true }

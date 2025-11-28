@@ -28,7 +28,7 @@ function StackSummary(props: { id: GUID }): React.ReactElement<number> {
             <div className="stack-summary-header">
                 <h2 className="stack-summary-title">{stackInfo?.name}</h2>
 
-                <span className="stack-summary-badge">
+                <span className={`stack-summary-badge stack-summary-badge-${TYPES[stackInfo.type]?.toLowerCase()}`}>
                     {TYPES[stackInfo.type]}
                 </span>
             </div>

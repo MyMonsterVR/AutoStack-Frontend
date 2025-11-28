@@ -1,5 +1,5 @@
 /* ----------- PAGE WRAPPER ---------- */
-.browse {
+.stacks {
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
@@ -9,14 +9,14 @@
 }
 
 /* ---------- HEADER ---------- */
-.browse-template-header {
+.my-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 35px;
 }
 
-.browse-template-search {
+.my-search {
     width: 340px;
     padding: 10px 16px;
     font-size: 15px;
@@ -27,41 +27,35 @@
     transition: 0.2s ease;
 }
 
-.browse-template-search::placeholder {
+.my-search::placeholder {
     color: #7c7c7c;
 }
 
-.browse-template-search:focus {
+.my-search:focus {
     outline: none;
     border-color: #3b82f6;
     box-shadow: 0 0 10px #3b82f625;
 }
 
-/* ---------- FILTER BUTTONS ---------- */
-.browse-template-filters {
-    display: flex;
-    gap: 12px;
-}
-
-.browse-template-filter-btn {
-    background: #242424;
-    color: #b5b5b5;
-    padding: 8px 16px;
+.my-create {
+    background: #3b82f6;
+    color: #ffffff;
+    padding: 10px 20px;
     border-radius: 10px;
-    border: 1px solid #3a3a3a;
-    font-size: 13px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
     transition: 0.25s;
 }
 
-.browse-template-filter-btn:hover {
-    background: #2a2a2a;
-    color: #f5f5f5;
-    border-color: #3b82f6;
+.my-create:hover {
+    background: #2563eb;
+    box-shadow: 0 0 15px #3b82f640;
 }
 
 /* ---------- SECTION BLOCK ---------- */
-.browse-template-section {
+.my-stacks-section {
     padding: 28px;
     background: #2a2a2a;
     border-radius: 18px;
@@ -70,7 +64,7 @@
     border: 1px solid #ffffff05;
 }
 
-.browse-template-section-title {
+.my-section-title {
     margin: 0;
     font-size: 24px;
     font-weight: 600;
@@ -78,7 +72,7 @@
 }
 
 /* ---------- STACK GRID ---------- */
-.browse-template-list {
+.my-stack-list {
     padding-top: 25px;
     width: 100%;
     display: grid;
