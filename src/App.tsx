@@ -1,6 +1,11 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/Global/ProtectedRoute';
+import './utils/Api/axiosConfig';
+
 import Navbar from './components/Global/Navbar';
+import Footer from './components/Global/Footer';
 
 import BrowseStacks from './pages/BrowseStacks';
 import BrowseTemplates from './pages/BrowseTemplates';
@@ -12,10 +17,9 @@ import Register from './pages/Register';
 import StackInfoPage from './pages/StackInfo';
 import UploadStacks from './pages/UploadStacks';
 
-import Footer from './components/Global/Footer';
-import { addToStacks } from "./utils/storedStacks"
+import { addToStacks } from "./utils/storedStacks";
 import { fetchStacks, StackInfoType, StackResponseSuccess } from "./utils/Api/Stacks";
-import { addToTemplates, TemplateInfo } from "./utils/storedTemplates"
+import { addToTemplates, TemplateInfo } from "./utils/storedTemplates";
 
 function App() {
     const templateInfoTest: TemplateInfo[] = [
@@ -64,7 +68,7 @@ function App() {
             description: "ka chikka?",
             type: "Frontend"
         }
-    ]
+    ];
 
     useEffect(() => {
         fetchStacks().then((res) => {
@@ -73,49 +77,53 @@ function App() {
                 success.data.items.forEach((stackInfo: StackInfoType) => {
                     addToStacks(stackInfo.id, stackInfo);
                 });
-            }
-            else {
+            } else {
                 console.error('fetchStacks returned an error response', res);
             }
         }).catch(err => {
             console.error('fetchStacks failed', err);
         });
 
-        // populate templates once
         for (const templateInfo of templateInfoTest) {
             addToTemplates(templateInfo.id, templateInfo);
         }
     }, []);
 
-    for(const templateInfo of templateInfoTest)
-    {
-        addToTemplates(templateInfo.id, templateInfo);
-    }
-
     const location = useLocation();
-
     const hideLayoutOn = ["/Login", "/Register"];
-
     const shouldHideLayout = hideLayoutOn.includes(location.pathname);
 
     return (
-        <>
+        <AuthProvider>
             {!shouldHideLayout && <Navbar />}
 
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/BrowseStacks" element={<BrowseStacks />} />
-                <Route path="/BrowseTemplates" element={<BrowseTemplates />} />
-                <Route path="/Dashboard" element={<Dashboard />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
-                <Route path="/MyAccount" element={<MyAccount />} />
+                <Route path="/BrowseStacks" element={<BrowseStacks />} />
+                <Route path="/BrowseTemplates" element={<BrowseTemplates />} />
                 <Route path="/StackInfo/:id" element={<StackInfoPage />} />
-                <Route path="/UploadStacks" element={<UploadStacks />} />
+
+                <Route path="/Dashboard" element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                } />
+                <Route path="/MyAccount" element={
+                    <ProtectedRoute>
+                        <MyAccount />
+                    </ProtectedRoute>
+                } />
+                <Route path="/UploadStacks" element={
+                    <ProtectedRoute>
+                        <UploadStacks />
+                    </ProtectedRoute>
+                } />
             </Routes>
 
             {!shouldHideLayout && <Footer />}
-        </>
+        </AuthProvider>
     );
 }
 

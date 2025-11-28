@@ -1,16 +1,25 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import AutostackLogo from '../../images/AutostackLogo.png';
 import '../../css/Navbar.css';
 
 function Navbar() {
-    var isSignedIn = false; // Placeholder for future authentication logic
+    const { isAuthenticated, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await logout();
+        navigate('/');
+    };
 
     return (
         <header className="navbar">
             <div className="navbar-content">
                 <div className="navbar-left">
-                        <NavLink to="/"><img className="navbar-img" src={AutostackLogo} alt="Autostack Logo"/></NavLink>
+                    <NavLink to="/">
+                        <img className="navbar-img" src={AutostackLogo} alt="Autostack Logo"/>
+                    </NavLink>
                 </div>
                 <div className="navbar-right">
                     <ul className="navbar-links">
@@ -24,7 +33,7 @@ function Navbar() {
                             <NavLink to="/BrowseTemplates" className={({ isActive }) => isActive ? 'nav-link nav-link-active' : 'nav-link'}>Templates</NavLink>
                         </li>
 
-                        {!isSignedIn ? (
+                        {!isAuthenticated ? (
                             <>
                                 <li>
                                     <NavLink to="/Login" className="nav-link nav-link-signin">Sign in</NavLink>
@@ -36,7 +45,27 @@ function Navbar() {
                         ) : (
                             <>
                                 <li>
-                                    <NavLink to="/MyAccount" className="nav-link">Profile</NavLink>
+                                    <NavLink to="/Dashboard" className={({ isActive }) => isActive ? 'nav-link nav-link-active' : 'nav-link'}>Dashboard</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/UploadStacks" className={({ isActive }) => isActive ? 'nav-link nav-link-active' : 'nav-link'}>Upload</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/MyAccount" className={({ isActive }) => isActive ? 'nav-link nav-link-active' : 'nav-link'}>Profile</NavLink>
+                                </li>
+                                <li>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="nav-link"
+                                        style={{
+                                            background: 'none',
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            padding: 0
+                                        }}
+                                    >
+                                        Logout
+                                    </button>
                                 </li>
                             </>
                         )}
