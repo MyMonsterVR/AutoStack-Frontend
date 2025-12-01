@@ -73,14 +73,7 @@ function Login() {
                 <form className="login-form" onSubmit={handleSubmit}>
                     <div className="login-field">
                         <label htmlFor="username">Username</label>
-                        <input
-                            id="username"
-                            name="username"
-                            type="text"
-                            placeholder="Enter username"
-                            disabled={isLoading}
-                            required
-                        />
+                        <input id="username" name="username" type="text" placeholder="Enter username" disabled={isLoading} required/>
                     </div>
 
                     <div className="login-field">

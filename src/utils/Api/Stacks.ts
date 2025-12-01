@@ -17,8 +17,8 @@ export enum SortBy
 }
 
 export interface PackageInfo {
-    packageName: string;
-    packageLink: string;
+    name: string;
+    link: string;
     isVerified?: boolean;
 }
 
@@ -127,4 +127,4 @@ export const createStack = async (
     } catch (error: any) {
         return { success: false, message: error.message };
     }
-}
+};

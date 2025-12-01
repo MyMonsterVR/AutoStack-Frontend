@@ -10,27 +10,14 @@ function CreateStack() {
     const [description, setDescription] = useState('');
     const [packages, setPackages] = useState<PackageInfo[]>([]);
 
-    const addPackageRow = (name: string, link: string) => {
-        setPackages([...packages, { packageName: name, packageLink: link }]);
-    };
-
     const createPackageRow = () => {
-        console.log("Clicked");
         document.querySelector(".create-stack-packages-list")?.insertAdjacentHTML('beforeend', `
             <div class="create-stack-package-row">
-                <input type="text" class="create-stack-package-input" placeholder="Package name"/>
-                <input type="text" class="create-stack-package-input" placeholder="Package link"/>
+                <input type="text" class="create-stack-package-input" name="packageName" placeholder="Package name"/>
+                <input type="text" class="create-stack-package-input" name="packageLink" placeholder="Package link"/>
                 <span class="create-stack-package-arrow">&gt;</span>
             </div>
         `);
-    }
-
-    const handlePackageChange = (index: number, value: string) => {
-        const updatedPackages = [...packages];
-        if (index < updatedPackages.length) {
-            updatedPackages[index] = { ...updatedPackages[index], packageName: value, packageLink: value };
-            setPackages(updatedPackages);
-        }
     }
 
     const handleSubmit = async (e: FormEvent) => {
@@ -40,17 +27,36 @@ function CreateStack() {
         const name = formData.get('name') as string;
         const description = formData.get('description') as string;
         const type = formData.get('type') as StackType;
-        const packageInfos: PackageInfo[] = packages.map((pkg) => ({
-            packageName: pkg.packageName,
-            packageLink: pkg.packageLink,
-            isVerified: false
-        }));
 
+        const resultPromise = new Promise(resolve => {
+            document.querySelectorAll(".create-stack-package-row").forEach(pkg => {
+                const packageNameInput = pkg.querySelector('input[name="packageName"]') as HTMLInputElement;
+                const packageLinkInput = pkg.querySelector('input[name="packageLink"]') as HTMLInputElement;
+
+                if (packageNameInput && packageLinkInput) {
+                    const packageName = packageNameInput.value;
+                    const packageLink = packageLinkInput.value;
+
+                    if (packageName.trim() !== '' && packageLink.trim() !== '') {
+                        setPackages(prevPackages => [...prevPackages, { name: packageName, link: packageLink }]);
+                        resolve(true);
+                    }
+                }
+            });
+        }
+        );
+
+        Promise.resolve(resultPromise).then(async () => {
+            await submitStack(name, description, type, packages);
+        });
+    };
+
+    const submitStack = async (name: string, description: string, type: StackType, packages: PackageInfo[]) => {
         const response = await createStack(
             name,
             description,
             type,
-            packageInfos
+            packages
         );
 
         if (response.success) {
@@ -59,16 +65,16 @@ function CreateStack() {
         } else {
             alert(`Error creating stack: ${response.message}`);
         }
-    };
+    }
 
     return (
         <div className="create-stack">
             <form className="create-stack-card" onSubmit={handleSubmit}>
                 <div className="create-stack-header">
                     <div className="create-stack-title-row">
-                        <input className="create-stack-name-input" type="text" placeholder="Stack name (e.g. MERN)" value={name} onChange={(e) => setName(e.target.value)} required/>
+                        <input className="create-stack-name-input" type="text" name="name" placeholder="Stack name (e.g. MERN)" value={name} onChange={(e) => setName(e.target.value)} required/>
 
-                        <select className="create-stack-type-select" value={type} onChange={(e) => setType(e.target.value)}>
+                        <select className="create-stack-type-select" name="type" value={type} onChange={(e) => setType(e.target.value)}>
                             <option value="FRONTEND">Frontend</option>
                             <option value="BACKEND">Backend</option>
                             <option value="FULLSTACK">Fullstack</option>
@@ -86,18 +92,11 @@ function CreateStack() {
                         </div>
 
                         <div className="create-stack-packages-list">
-                            {packages.map((pkg, index) => (
-                                <div key={index} className="create-stack-package-row">
-                                    <input type="text" className="create-stack-package-input" placeholder="Package name" value={pkg.packageName} onChange={(e) => handlePackageChange(index, e.target.value)}/>
-                                    <input type="text" className="create-stack-package-input" placeholder="Package link" value={pkg.packageLink} onChange={(e) => handlePackageChange(index, e.target.value)}/>
-                                    <span className="create-stack-package-arrow">&gt;</span>
-                                </div>
-                            ))}
                         </div>
                     </div>
 
                     <div className="create-stack-right">
-                        <textarea className="create-stack-description" placeholder="Describe what this stack is for, how it is structured, etc." value={description} onChange={(e) => setDescription(e.target.value)}/>
+                        <textarea className="create-stack-description" name="description" placeholder="Describe what this stack is for, how it is structured, etc." value={description} onChange={(e) => setDescription(e.target.value)}/>
                     </div>
                 </div>
 
