@@ -1,6 +1,7 @@
 import axios from "axios";
 import { GUID } from "../global";
 import axiosInstance from "./axiosConfig";
+import { API_BASE_URL } from "./config";
 
 interface UserDataResponse {
     success: boolean;
@@ -15,13 +16,11 @@ interface UserDataResponse {
 
 export const fetchUserData = async (): Promise<UserDataResponse> => {
     try {
-        const response = await axiosInstance.get(
-            `https://autostack.dk/api/user/me`
-        );
-
+        const response = await axiosInstance.get(`${API_BASE_URL}/user/me`);
+        const payload = response.data?.data ?? {};
         return {
             success: true,
-            data: response.data.data
+            data: payload
         };
     } catch (error: any) {
         return {

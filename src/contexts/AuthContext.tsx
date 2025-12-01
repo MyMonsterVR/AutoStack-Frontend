@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { loginUser, registerUser, logoutUser, refreshToken } from '../utils/Api/Auth';
+import { fetchUserData } from '../utils/Api/UserData';
+import {GUID} from "../utils/global";
 
 interface User {
     id: string;
@@ -32,12 +34,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             // Try to refresh token to verify authentication
             const result = await refreshToken();
             if (result.success) {
-                // TODO: Fetch user details from /api/user endpoint
-                setUser({
-                    id: 'user-id', // Get from JWT or user endpoint
-                    username: 'username',
-                    email: 'email'
-                });
+                // Fetch user details so we persist session on reload
+                const me = await fetchUserData();
+                if (me.success && me.data) {
+                    setUser({
+                        id: me.data.id as GUID,
+                        username: me.data.username,
+                        email: me.data.email
+                    });
+                } else {
+                    setUser(null);
+                }
+            } else {
+                setUser(null);
             }
         } catch (error) {
             setUser(null);
@@ -50,13 +59,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
             const result = await loginUser(username, password);
             if (result.success) {
-                // TODO: Fetch user details after login
-                setUser({
-                    id: 'user-id',
-                    username: username,
-                    email: 'email'
-                });
-                return { success: true };
+                // Fetch user details after login
+                const me = await fetchUserData();
+                if (me.success && me.data) {
+                    setUser({
+                        id: me.data.id as GUID,
+                        username: me.data.username,
+                        email: me.data.email
+                    });
+                    return { success: true };
+                }
+                return { success: false, message: me.message || 'Failed to load user profile.' };
             }
             return { success: false, message: result.message };
         } catch (error: any) {

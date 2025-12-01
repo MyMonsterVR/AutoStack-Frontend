@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_BASE_URL = "https://autostack.dk/api";
+import { API_BASE_URL } from "./config";
 
 // Create axios instance
 const axiosInstance = axios.create({
@@ -8,12 +7,23 @@ const axiosInstance = axios.create({
     withCredentials: true
 });
 
-// Request interceptor to attach access token
+// Request interceptor to attach access token, but never for auth/refresh endpoints
 axiosInstance.interceptors.request.use(
     (config) => {
-        const accessToken = localStorage.getItem('accessToken');
-        if (accessToken) {
-            config.headers.Authorization = `Bearer ${accessToken}`;
+        const url = (config.url || '').toLowerCase();
+        const isAuthFree = (
+            url.includes('/refresh') ||
+            url.includes('/login') ||
+            url.includes('/register') ||
+            url.includes('/logout')
+        );
+
+        if (!isAuthFree) {
+            const accessToken = localStorage.getItem('accessToken');
+            if (accessToken) {
+                config.headers = config.headers || {};
+                (config.headers as any).Authorization = `Bearer ${accessToken}`;
+            }
         }
         return config;
     },
@@ -24,27 +34,40 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
-        const originalRequest = error.config;
+        const originalRequest: any = error.config || {};
+        const status = error?.response?.status;
+        const url = (originalRequest?.url || '').toLowerCase();
 
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        // Avoid loops: never try to refresh when the failing call is /refresh itself
+        const isRefreshCall = url.includes('/refresh');
+
+        if (status === 401 && !originalRequest._retry && !isRefreshCall) {
             originalRequest._retry = true;
 
             try {
-                const refreshToken = localStorage.getItem('refreshToken');
-                const response = await axios.post(
+                // Rely on cookies only
+                const refreshRes = await axios.post(
                     `${API_BASE_URL}/refresh`,
-                    { refreshToken },
+                    {},
                     { withCredentials: true }
                 );
 
-                const { accessToken, refreshToken: newRefreshToken } = response.data;
+                const payload = refreshRes?.data?.data ?? {};
+                const accessToken = payload.accessToken ?? payload?.accessToken;
+                const newRefreshToken = payload.refreshToken ?? payload?.refreshToken;
 
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', newRefreshToken);
+                if (accessToken) localStorage.setItem('accessToken', accessToken);
+                if (newRefreshToken) localStorage.setItem('refreshToken', newRefreshToken);
 
-                originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+                // Set Authorization header for the retried call if we have a token
+                originalRequest.headers = originalRequest.headers || {};
+                if (accessToken) {
+                    originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+                }
+
                 return axiosInstance(originalRequest);
             } catch (refreshError) {
+                // On refresh failure, clear tokens and redirect to login
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
                 window.location.href = '/login';

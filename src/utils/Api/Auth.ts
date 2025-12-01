@@ -1,7 +1,6 @@
 import axios from "axios";
 import axiosInstance from "./axiosConfig";
-
-const API_BASE_URL = "https://autostack.dk/api";
+import { API_BASE_URL } from "./config";
 
 interface AuthResponse {
     success: boolean;
@@ -21,13 +20,18 @@ export const loginUser = async (username: string, password: string): Promise<Aut
             }
         );
 
-        localStorage.setItem('accessToken', response.data.data.accessToken);
-        localStorage.setItem('refreshToken', response.data.data.refreshToken);
+        // Support both shapes: { data: { accessToken, refreshToken } } and { accessToken, refreshToken }
+        const payload = response.data?.data ?? {};
+        const accessToken = payload.accessToken;
+        const refreshToken = payload.refreshToken;
+
+        if (accessToken) localStorage.setItem('accessToken', accessToken);
+        if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
 
         return {
             success: true,
-            accessToken: response.data.data.accessToken,
-            refreshToken: response.data.data.refreshToken
+            accessToken,
+            refreshToken
         };
     } catch (error: any) {
         return {
@@ -77,16 +81,23 @@ export const logoutUser = async (): Promise<void> => {
 
 export const refreshToken = async (): Promise<AuthResponse> => {
     try {
-        const response = await axiosInstance.post(
+        const response = await axios.post(
             `${API_BASE_URL}/refresh`,
             {},
             { withCredentials: true }
         );
 
+        const payload = response.data?.data ?? {};
+        const accessToken = payload.accessToken;
+        const refreshToken = payload.refreshToken;
+
+        if (accessToken) localStorage.setItem('accessToken', accessToken);
+        if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
+
         return {
             success: true,
-            accessToken: response.data.accessToken,
-            refreshToken: response.data.refreshToken
+            accessToken,
+            refreshToken
         };
     } catch (error: any) {
         return { success: false, message: "Session expired. Please log in again." };

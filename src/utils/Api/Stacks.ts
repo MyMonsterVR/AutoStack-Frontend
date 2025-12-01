@@ -1,6 +1,7 @@
 import axios from "axios";
 import { GUID } from "../global";
 import axiosInstance from "./axiosConfig";
+import { API_BASE_URL } from "./config";
 
 export type StackType = "FRONTEND" | "BACKEND" | "FULLSTACK";
 
@@ -73,7 +74,7 @@ export const fetchStacks = async (
         if (pageSize !== undefined) params.append('PageSize', pageSize.toString());
 
         const queryString = params.toString();
-        const url = `https://autostack.dk/api/stack/getStacks${queryString ? `?${queryString}` : ''}`;
+        const url = `${API_BASE_URL}/stack/getStacks${queryString ? `?${queryString}` : ''}`;
 
         const response = await axios.get<StackResponse>(url);
         return response.data;
@@ -88,7 +89,7 @@ export const fetchStacks = async (
 
 export const fetchStackById = async (id: GUID): Promise<StackInfoType | null> => {
     try {
-        const url = `https://autostack.dk/api/stack/getstack?id=${id}`;
+        const url = `${API_BASE_URL}/stack/getstack?id=${id}`;
         const response = await axios.get<{ success: boolean; data: StackInfoType }>(url);
 
         if (response.data.success) {
@@ -109,7 +110,7 @@ export const createStack = async (
     packages: PackageInfo[]
 ): Promise<{ success: boolean; message?: string; stackId?: GUID }> => {
     try {
-        const url = `https://autostack.dk/api/stack/create`;
+        const url = `${API_BASE_URL}/stack/create`;
         const response = await axiosInstance.post(url, {
             name,
             description,
