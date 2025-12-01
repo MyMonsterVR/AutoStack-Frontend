@@ -54,7 +54,7 @@ function StackInfo() {
         // Trigger protocol via hidden iframe
         iframe = document.createElement('iframe');
         iframe.style.display = 'none';
-        iframe.src = `autostack://getstack/${id}`;
+        iframe.src = `autostack://install/${id}`;
         document.body.appendChild(iframe);
 
         // Timeout: if no blur after 1800ms, show error
@@ -109,15 +109,22 @@ function StackInfo() {
                     <div className="stack-info-left">
                         <h2 className="stack-info-packages-title">Packages</h2>
                         <div className="stack-info-packages-list">
-                                {stackInfo.packages?.map((info, idx) => (
-                                    <div className="package-name" key={idx}>
-                                        <span>{info.packageName}</span>
+                            {stackInfo.packages.map((packageInfo, index) => (
+                                <a key={index} href={packageInfo.packageLink} target="_blank" rel="noopener noreferrer" className="stack-info-package-btn">
+                                    <div className="stack-info-package-left">
+                                        <span className="package-name">{packageInfo.packageName}</span>
+                                        {packageInfo.isVerified && (
+                                            <span className="stack-info-package-verified" title="verified package">
+                                                <span className="stack-info-package-verified-icon">✓</span>
+                                            </span>
+                                        )}
                                     </div>
-                                ))}
+                                    <span className="arrow">›</span>
+                                </a>
+                            ))}
                         </div>
                     </div>
-
-                    <div className="stack-info-right">
+                <div className="stack-info-right">
                         <p className="stack-info-description">
                             {stackInfo.description}
                         </p>

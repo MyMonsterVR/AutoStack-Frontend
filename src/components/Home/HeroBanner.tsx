@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import '../../css/HeroBanner.css';
 
-
 function HeroBanner() {
     return (
         <section className="hero">
@@ -13,8 +12,7 @@ function HeroBanner() {
                 <p className="hero-subtitle">Tech stacks made easy</p>
 
                 <div className="hero-buttons">
-                    <NavLink to="/BrowseStacks" className="hero-btn">Stacks</NavLink>
-                    <NavLink to="/BrowseTemplates" className="hero-btn">Templates</NavLink>
+                    <NavLink to="/Download" className="hero-btn">Get Started</NavLink>
                 </div>
             </div>
         </section>

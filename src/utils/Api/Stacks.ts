@@ -1,12 +1,8 @@
 import axios from "axios";
 import { GUID } from "../global";
+import axiosInstance from "./axiosConfig";
 
-export enum StackType
-{
-    FRONTEND,
-    BACKEND,
-    FULLSTACK
-}
+export type StackType = "FRONTEND" | "BACKEND" | "FULLSTACK";
 
 export enum SortingOrder {
     ASC,
@@ -23,17 +19,20 @@ export enum SortBy
 export interface PackageInfo {
     packageName: string;
     packageLink: string;
-    isVerified: boolean;
+    isVerified?: boolean;
 }
 
 export interface StackInfoType {
     id: GUID,
     name: string,
     description: string
-    type: "FRONTEND"|"BACKEND"|"FULLSTACK",
+    type: StackType,
     downloads: number,
     createdAt: string,
-    packages: PackageInfo[]
+    packages: PackageInfo[],
+    userId: GUID,
+    username: string,
+    userAvatarUrl: string
 }
 
 export interface StackResponseSuccess {
@@ -102,3 +101,30 @@ export const fetchStackById = async (id: GUID): Promise<StackInfoType | null> =>
         return null;
     }
 };
+
+export const createStack = async (
+    name: string,
+    description: string,
+    type: StackType,
+    packages: PackageInfo[]
+): Promise<{ success: boolean; message?: string; stackId?: GUID }> => {
+    try {
+        const url = `https://autostack.dk/api/stack/create`;
+        const response = await axiosInstance.post(url, {
+            name,
+            description,
+            type,
+            packages
+        }, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (response.data.success) {
+            return { success: true, stackId: response.data.data.stackId };
+        } else {
+            return { success: false, message: response.data.message };
+        }
+    } catch (error: any) {
+        return { success: false, message: error.message };
+    }
+}

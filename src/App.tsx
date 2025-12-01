@@ -9,13 +9,14 @@ import Footer from './components/Global/Footer';
 
 import BrowseStacks from './pages/BrowseStacks';
 import BrowseTemplates from './pages/BrowseTemplates';
+import CreateStack from './pages/CreateStack';
 import Dashboard from './pages/Dashboard';
+import Download from "./pages/Download";
 import Home from './pages/Home';
 import Login from './pages/Login';
 import MyAccount from './pages/MyAccount';
 import Register from './pages/Register';
 import StackInfoPage from './pages/StackInfo';
-import UploadStacks from './pages/UploadStacks';
 
 import { addToStacks } from "./utils/storedStacks";
 import { fetchStacks, StackInfoType, StackResponseSuccess } from "./utils/Api/Stacks";
@@ -99,12 +100,18 @@ function App() {
 
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/Login" element={<Login />} />
-                <Route path="/Register" element={<Register />} />
                 <Route path="/BrowseStacks" element={<BrowseStacks />} />
                 <Route path="/BrowseTemplates" element={<BrowseTemplates />} />
+                <Route path="/Download" element={<Download />} />
+                <Route path="/Login" element={<Login />} />
+                <Route path="/Register" element={<Register />} />
                 <Route path="/StackInfo/:id" element={<StackInfoPage />} />
 
+                <Route path="/CreateStack" element={
+                    <ProtectedRoute>
+                        <CreateStack />
+                    </ProtectedRoute>
+                } />
                 <Route path="/Dashboard" element={
                     <ProtectedRoute>
                         <Dashboard />
@@ -113,11 +120,6 @@ function App() {
                 <Route path="/MyAccount" element={
                     <ProtectedRoute>
                         <MyAccount />
-                    </ProtectedRoute>
-                } />
-                <Route path="/UploadStacks" element={
-                    <ProtectedRoute>
-                        <UploadStacks />
                     </ProtectedRoute>
                 } />
             </Routes>

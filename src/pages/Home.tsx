@@ -6,7 +6,6 @@ import '../css/Global.css'
 import {stackInfo, subscribeStacks} from '../utils/storedStacks';
 import {NavLink} from "react-router-dom";
 
-// Simple skeleton component
 function SkeletonCard() {
     return (
         <div className="skeleton-card">

@@ -48,7 +48,7 @@ function Navbar() {
                                     <NavLink to="/Dashboard" className={({ isActive }) => isActive ? 'nav-link nav-link-active' : 'nav-link'}>Dashboard</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/UploadStacks" className={({ isActive }) => isActive ? 'nav-link nav-link-active' : 'nav-link'}>Upload</NavLink>
+                                    <NavLink to="/CreateStack" className={({ isActive }) => isActive ? 'nav-link nav-link-active' : 'nav-link'}>Create Stack</NavLink>
                                 </li>
                                 <li>
                                     <NavLink to="/MyAccount" className={({ isActive }) => isActive ? 'nav-link nav-link-active' : 'nav-link'}>Profile</NavLink>
