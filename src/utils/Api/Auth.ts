@@ -11,28 +11,16 @@ interface AuthResponse {
 
 export const loginUser = async (username: string, password: string): Promise<AuthResponse> => {
     try {
-        const response = await axios.post(
+        await axios.post(
             `${API_BASE_URL}/login`,
             { username, password },
             {
-                withCredentials: true, // Important: send/receive cookies
+                withCredentials: true,
                 headers: { 'Content-Type': 'application/json' }
             }
         );
 
-        // Support both shapes: { data: { accessToken, refreshToken } } and { accessToken, refreshToken }
-        const payload = response.data?.data ?? {};
-        const accessToken = payload.accessToken;
-        const refreshToken = payload.refreshToken;
-
-        if (accessToken) localStorage.setItem('accessToken', accessToken);
-        if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
-
-        return {
-            success: true,
-            accessToken,
-            refreshToken
-        };
+        return { success: true };
     } catch (error: any) {
         return {
             success: false,
@@ -74,31 +62,25 @@ export const logoutUser = async (): Promise<void> => {
             {},
             { withCredentials: true }
         );
+
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
     } catch (error) {
         console.error("Logout error:", error);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
     }
 };
 
 export const refreshToken = async (): Promise<AuthResponse> => {
     try {
-        const response = await axios.post(
+        await axios.post(
             `${API_BASE_URL}/refresh`,
             {},
             { withCredentials: true }
         );
 
-        const payload = response.data?.data ?? {};
-        const accessToken = payload.accessToken;
-        const refreshToken = payload.refreshToken;
-
-        if (accessToken) localStorage.setItem('accessToken', accessToken);
-        if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
-
-        return {
-            success: true,
-            accessToken,
-            refreshToken
-        };
+        return { success: true };
     } catch (error: any) {
         return { success: false, message: "Session expired. Please log in again." };
     }

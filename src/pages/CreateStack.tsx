@@ -4,58 +4,52 @@ import {createStack, PackageInfo, StackType} from "../utils/Api/Stacks";
 import {NavLink, useNavigate} from "react-router-dom";
 
 
+interface PackageRow {
+    id: number;
+    name: string;
+    link: string;
+}
+
 function CreateStack() {
     const [name, setName] = useState('');
-    const [type, setType] = useState('Frontend');
+    const [type, setType] = useState('FRONTEND');
     const [description, setDescription] = useState('');
-    const [packages, setPackages] = useState<PackageInfo[]>([]);
+    const [packageRows, setPackageRows] = useState<PackageRow[]>([]);
+    const [nextId, setNextId] = useState(1);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    const createPackageRow = () => {
-        document.querySelector(".create-stack-packages-list")?.insertAdjacentHTML('beforeend', `
-            <div class="create-stack-package-row">
-                <input type="text" class="create-stack-package-input" name="packageName" placeholder="Package name"/>
-                <input type="text" class="create-stack-package-input" name="packageLink" placeholder="Package link"/>
-                <span class="create-stack-package-arrow">&gt;</span>
-            </div>
-        `);
-    }
+    const addPackageRow = () => {
+        setPackageRows([...packageRows, { id: nextId, name: '', link: '' }]);
+        setNextId(nextId + 1);
+    };
+
+    const removePackageRow = (id: number) => {
+        setPackageRows(packageRows.filter(row => row.id !== id));
+    };
+
+    const updatePackage = (id: number, field: 'name' | 'link', value: string) => {
+        setPackageRows(packageRows.map(row =>
+            row.id === id ? { ...row, [field]: value } : row
+        ));
+    };
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setError('');
         setIsLoading(true);
 
-        const form = e.currentTarget as HTMLFormElement;
-        const formData = new FormData(form);
-        const name = formData.get('name') as string;
-        const description = formData.get('description') as string;
-        const type = formData.get('type') as StackType;
-
-        const collectedPackages: PackageInfo[] = [];
-        document.querySelectorAll(".create-stack-package-row").forEach(pkg => {
-            const packageNameInput = pkg.querySelector('input[name="packageName"]') as HTMLInputElement;
-            const packageLinkInput = pkg.querySelector('input[name="packageLink"]') as HTMLInputElement;
-
-            if (packageNameInput && packageLinkInput) {
-                const packageName = packageNameInput.value;
-                const packageLink = packageLinkInput.value;
-
-                if (packageName.trim() !== '' && packageLink.trim() !== '') {
-                    collectedPackages.push({ name: packageName, link: packageLink });
-                }
-            }
-        });
+        const validPackages = packageRows
+            .filter(row => row.name.trim() !== '' && row.link.trim() !== '')
+            .map(row => ({ name: row.name.trim(), link: row.link.trim() }));
 
         try {
-            const response = await createStack(name, description, type, collectedPackages);
+            const response = await createStack(name, description, type as StackType, validPackages);
 
             if (response.success) {
                 navigate(`/StackInfo/${response.data?.id}`);
-            }
-            else {
+            } else {
                 setError(response.message || 'Failed to create stack');
             }
         } catch (err: any) {
@@ -100,10 +94,38 @@ function CreateStack() {
                     <div className="create-stack-left">
                         <div className="create-stack-packages-header">
                             <h2 className="create-stack-packages-title">Packages</h2>
-                            <button type="button" className="create-stack-add-package" onClick={createPackageRow} disabled={isLoading}>+</button>
+                            <button type="button" className="create-stack-add-package" onClick={addPackageRow} disabled={isLoading}>+</button>
                         </div>
 
                         <div className="create-stack-packages-list">
+                            {packageRows.map(row => (
+                                <div key={row.id} className="create-stack-package-row">
+                                    <input
+                                        type="text"
+                                        className="create-stack-package-input"
+                                        placeholder="Package name"
+                                        value={row.name}
+                                        onChange={(e) => updatePackage(row.id, 'name', e.target.value)}
+                                        disabled={isLoading}
+                                    />
+                                    <input
+                                        type="text"
+                                        className="create-stack-package-input"
+                                        placeholder="Package link"
+                                        value={row.link}
+                                        onChange={(e) => updatePackage(row.id, 'link', e.target.value)}
+                                        disabled={isLoading}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="create-stack-package-remove"
+                                        onClick={() => removePackageRow(row.id)}
+                                        disabled={isLoading}
+                                    >
+                                        &times;
+                                    </button>
+                                </div>
+                            ))}
                         </div>
                     </div>
 

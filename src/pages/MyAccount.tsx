@@ -64,14 +64,30 @@ function MyAccount() {
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
-            setAvatarFile(file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setAvatarPreview(reader.result as string);
-            };
-            reader.readAsDataURL(file);
+        if (!file) return;
+
+        const MAX_FILE_SIZE = 5 * 1024 * 1024;
+        const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+
+        if (!ALLOWED_TYPES.includes(file.type)) {
+            setProfileError('Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed.');
+            e.target.value = '';
+            return;
         }
+
+        if (file.size > MAX_FILE_SIZE) {
+            setProfileError('File size exceeds 5MB limit.');
+            e.target.value = '';
+            return;
+        }
+
+        setProfileError('');
+        setAvatarFile(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setAvatarPreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
     };
 
     const handleSaveProfile = async () => {
