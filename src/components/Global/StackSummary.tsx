@@ -39,7 +39,7 @@ function StackSummary(props: { id: GUID }): React.ReactElement<number> {
 
             <div className="stack-summary-footer">
                 <img
-                    src={ "/images/default-avatar.png"}
+                    src={stackInfo.userAvatarUrl}
                     className="stack-summary-avatar"
                     alt="User avatar"
                 />
