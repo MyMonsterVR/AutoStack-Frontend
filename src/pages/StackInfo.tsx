@@ -101,7 +101,7 @@ function StackInfo() {
                         </div>
                     </div>
                     <p className="stack-info-author">
-                        {'Unknown user'}
+                        {stackInfo.username}
                     </p>
                 </div>
 

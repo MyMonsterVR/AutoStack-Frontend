@@ -118,3 +118,24 @@
 .my-account-btn:active {
     transform: translateY(0);
 }
+
+.my-account-avatar-container {
+    margin: 10px 0;
+}
+
+.my-account-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.my-account-file-input {
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    cursor: pointer;
+}

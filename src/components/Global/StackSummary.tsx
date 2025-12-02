@@ -44,7 +44,7 @@ function StackSummary(props: { id: GUID }): React.ReactElement<number> {
                     alt="User avatar"
                 />
                 <span className="stack-summary-username">
-                    {"Unknown user"}
+                    {stackInfo?.username || "Unknown user"}
                 </span>
             </div>
 

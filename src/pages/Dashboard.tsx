@@ -17,8 +17,19 @@ function Dashboard() {
 
     const userStacks = useMemo(() => {
         if (!user) return [];
-        return Array.from(stackInfo.values()).filter(info => info.userId === user.id);
+        return Array.from(stackInfo.values())
+            .filter(info => info.userId === user.id)
+            .sort((a, b) => {
+                return Date.parse(b.createdAt) - Date.parse(a.createdAt);
+            });
     }, [user]);
+
+    const stackSummariesByDate = userStacks.map(info => (
+        <NavLink className="textDecoration-none" to={`/StackInfo/${info.id}`} key={info.id}>
+            <StackSummary id={info.id} />
+        </NavLink>
+    ));
+    
 
     return (
         <div className="stacks">
@@ -31,9 +42,7 @@ function Dashboard() {
                 <div className="my-stacks-section">
                     <h2 className="my-section-title">My Stacks</h2>
                     <div className="my-stack-list">
-                        {userStacks.map(info => (
-                            <StackSummary id={info.id} key={info.id} />
-                        ))}
+                        {stackSummariesByDate}
                     </div>
                 </div>
 

@@ -29,3 +29,26 @@ export const fetchUserData = async (): Promise<UserDataResponse> => {
         };
     }
 };
+
+export const editUser = async (userData: {
+    username?: string;
+    email?: string;
+    avatarUrl?: string;
+    currentPassword?: string | null;
+    newPassword?: string | null;
+    confirmNewPassword?: string | null;
+}): Promise<UserDataResponse> => {
+    try {
+        const response = await axiosInstance.patch(`${API_BASE_URL}/user/edit`, userData);
+        return {
+            success: true,
+            data: response.data?.data
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.response?.data?.message || "Failed to update user data."
+        };
+    }
+};
+

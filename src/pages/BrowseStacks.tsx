@@ -51,7 +51,7 @@ function BrowseStacks() {
             <NavLink className="textDecoration-none" to={`/StackInfo/${info.id}`} key={info.id}>
                 <StackSummary id={info.id} />
             </NavLink>
-        ));
+    ));
 
     return (
         <div className="browse">
