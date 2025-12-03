@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { fetchUserData, editUser } from '../utils/Api/UserData';
+import { fetchUserData, editUser, uploadAvatar } from '../utils/Api/UserData';
 import { GUID } from '../utils/global';
 import { useNavigate } from 'react-router-dom';
 import '../css/MyAccount.css';
@@ -25,7 +25,6 @@ function MyAccount() {
     const [formData, setFormData] = useState({
         username: '',
         email: '',
-        avatarUrl: '',
         currentPassword: '',
         newPassword: '',
         confirmNewPassword: ''
@@ -43,7 +42,6 @@ function MyAccount() {
                 setFormData({
                     username: response.data.username,
                     email: response.data.email,
-                    avatarUrl: response.data.avatarUrl,
                     currentPassword: '',
                     newPassword: '',
                     confirmNewPassword: ''
@@ -94,19 +92,42 @@ function MyAccount() {
         setProfileError('');
         setProfileSuccess('');
 
-        const avatarToSave = avatarPreview || formData.avatarUrl;
+        // If a file was selected, upload it and we're done (upload handler updates the user)
+        if (avatarFile) {
+            const uploadResponse = await uploadAvatar(avatarFile);
+            if (!uploadResponse.success) {
+                setProfileError(uploadResponse.message || 'Failed to upload avatar');
+                return;
+            }
 
+            // Upload successful - update local state with the response
+            if (uploadResponse.data) {
+                setUserData(uploadResponse.data);
+                setFormData({
+                    username: uploadResponse.data.username,
+                    email: uploadResponse.data.email,
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmNewPassword: ''
+                });
+            }
+
+            setIsEditing(false);
+            setAvatarFile(null);
+            setAvatarPreview('');
+            setProfileSuccess('Avatar uploaded successfully');
+            return;
+        }
+
+        // No file upload, just update profile fields
         const response = await editUser({
             username: formData.username,
-            email: formData.email,
-            avatarUrl: avatarToSave
+            email: formData.email
         });
 
         if (response.success && response.data) {
             setUserData(response.data);
             setIsEditing(false);
-            setAvatarFile(null);
-            setAvatarPreview('');
             setProfileSuccess('Profile updated successfully');
         } else {
             setProfileError(response.message || 'Failed to update profile');
@@ -130,7 +151,6 @@ function MyAccount() {
         const response = await editUser({
             username: formData.username,
             email: formData.email,
-            avatarUrl: formData.avatarUrl,
             currentPassword: formData.currentPassword,
             newPassword: formData.newPassword,
             confirmNewPassword: formData.confirmNewPassword
@@ -194,27 +214,18 @@ function MyAccount() {
                         <label>Avatar</label>
                         <div className="my-account-avatar-container">
                             <img
-                                src={avatarPreview || formData.avatarUrl || 'https://via.placeholder.com/150'}
+                                src={avatarPreview || userData?.avatarUrl || 'https://via.placeholder.com/150'}
                                 alt="User Avatar"
                                 className="my-account-avatar"
                             />
                         </div>
                         {isEditing && (
-                            <>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                    className="my-account-file-input"
-                                />
-                                <input
-                                    type="text"
-                                    name="avatarUrl"
-                                    value={formData.avatarUrl}
-                                    onChange={handleInputChange}
-                                    placeholder="Or enter avatar URL"
-                                />
-                            </>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                className="my-account-file-input"
+                            />
                         )}
                     </div>
                     <div className="my-account-field">

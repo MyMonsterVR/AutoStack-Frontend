@@ -35,7 +35,6 @@ export const fetchUserData = async (): Promise<UserDataResponse> => {
 export const editUser = async (userData: {
     username?: string;
     email?: string;
-    avatarUrl?: string;
     currentPassword?: string | null;
     newPassword?: string | null;
     confirmNewPassword?: string | null;
@@ -50,6 +49,29 @@ export const editUser = async (userData: {
         return {
             success: false,
             message: error.response?.data?.message || "Failed to update user data."
+        };
+    }
+};
+
+export const uploadAvatar = async (file: File): Promise<UserDataResponse> => {
+    try {
+        const formData = new FormData();
+        formData.append('avatar', file);
+
+        const response = await axiosInstance.post(`${API_BASE_URL}/user/avatar`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        return {
+            success: true,
+            data: response.data?.data
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.response?.data?.message || "Failed to upload avatar."
         };
     }
 };
