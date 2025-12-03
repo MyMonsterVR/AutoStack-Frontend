@@ -29,9 +29,6 @@ function Navbar() {
                         <li>
                             <NavLink to="/BrowseStacks" className={({ isActive }) => isActive ? 'nav-link nav-link-active' : 'nav-link'}>Stacks</NavLink>
                         </li>
-                        <li>
-                            <NavLink to="/BrowseTemplates" className={({ isActive }) => isActive ? 'nav-link nav-link-active' : 'nav-link'}>Templates</NavLink>
-                        </li>
 
                         {isLoading ? (
                             <>

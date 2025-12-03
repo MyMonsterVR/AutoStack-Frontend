@@ -45,13 +45,6 @@ function Dashboard() {
                         {stackSummariesByDate}
                     </div>
                 </div>
-
-                <div className="my-stacks-section">
-                    <h2 className="my-section-title">My Templates</h2>
-                    <div className="my-stack-list">
-                        {/* Placeholder for user's templates */}
-                    </div>
-                </div>
             </div>
         </div>
     );
