@@ -18,10 +18,28 @@
   border-radius: 16px;
   padding: 28px;
   max-width: 90%;
-  width: 440px;
+  max-height: 90vh;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
   animation: scaleIn 0.2s ease;
   position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-sm {
+  width: 400px;
+  min-height: 100px;
+}
+
+.modal-md {
+  width: 500px;
+  min-height: 200px;
+}
+
+.modal-lg {
+  width: 650px;
+  min-height: 350px;
 }
 
 @keyframes fadeIn {

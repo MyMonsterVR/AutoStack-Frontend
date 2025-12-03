@@ -129,3 +129,17 @@ export const createStack = async (
         return { success: false, message: error.message };
     }
 };
+
+export const fetchVerifiedPackages = async (): Promise<{ success: boolean; data?: PackageInfo[]; message?: string }> => {
+    try {
+        const response = await axiosInstance.get(`${API_BASE_URL}/stack/verifiedpackages`);
+
+        if (response.data.success) {
+            return { success: true, data: response.data.data };
+        } else {
+            return { success: false, message: response.data.message };
+        }
+    } catch (error: any) {
+        return { success: false, message: error.message || 'Failed to fetch verified packages' };
+    }
+};

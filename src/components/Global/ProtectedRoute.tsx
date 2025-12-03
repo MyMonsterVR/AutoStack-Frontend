@@ -1,30 +1,17 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import '../../css/Loading.css';
 
 interface ProtectedRouteProps {
     children: React.ReactElement;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-    const { isAuthenticated, isLoading } = useAuth();
+    const { authState } = useAuth();
     const location = useLocation();
 
-    if (isLoading) {
-        return (
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100vh'
-            }}>
-                Loading...
-            </div>
-        );
-    }
-
-    if (!isAuthenticated) {
-        // Redirect to login with return URL
+    if (authState !== 'authenticated') {
         return <Navigate to="/Login" state={{ from: location }} replace />;
     }
 

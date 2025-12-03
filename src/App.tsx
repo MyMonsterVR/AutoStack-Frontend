@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ProtectedRoute from './components/Global/ProtectedRoute';
 import './utils/Api/axiosConfig';
+import './css/Loading.css';
 
 import Navbar from './components/Global/Navbar';
 import Footer from './components/Global/Footer';
@@ -90,12 +91,30 @@ function App() {
         }
     }, []);
 
+    return (
+        <AuthProvider>
+            <AppContent />
+        </AuthProvider>
+    );
+}
+
+function AppContent() {
+    const { authState } = useAuth();
     const location = useLocation();
     const hideLayoutOn = ["/Login", "/Register"];
     const shouldHideLayout = hideLayoutOn.includes(location.pathname);
 
+    if (authState === 'initializing') {
+        return (
+            <div className="app-loading">
+                <div className="loading-spinner" />
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
     return (
-        <AuthProvider>
+        <>
             {!shouldHideLayout && <Navbar />}
 
             <Routes>
@@ -125,7 +144,7 @@ function App() {
             </Routes>
 
             {!shouldHideLayout && <Footer />}
-        </AuthProvider>
+        </>
     );
 }
 

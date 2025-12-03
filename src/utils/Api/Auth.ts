@@ -74,14 +74,16 @@ export const logoutUser = async (): Promise<void> => {
 
 export const refreshToken = async (): Promise<AuthResponse> => {
     try {
-        await axios.post(
+        const response = await axios.post(
             `${API_BASE_URL}/refresh`,
             {},
             { withCredentials: true }
         );
 
+        console.log('refreshToken response:', response.status, response.data);
         return { success: true };
     } catch (error: any) {
+        console.error('refreshToken failed:', error.response?.status, error.response?.data, error.message);
         return { success: false, message: "Session expired. Please log in again." };
     }
 };

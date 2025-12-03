@@ -3,6 +3,12 @@ import { loginUser, registerUser, logoutUser, refreshToken } from '../utils/Api/
 import { fetchUserData } from '../utils/Api/UserData';
 import {GUID} from "../utils/global";
 
+type AuthState = 'initializing' | 'authenticated' | 'unauthenticated';
+
+// Global flag to prevent concurrent auth checks across component remounts
+let isCheckingAuth = false;
+let authCheckPromise: Promise<void> | null = null;
+
 interface User {
     id: string;
     username: string;
@@ -11,6 +17,7 @@ interface User {
 
 interface AuthContextType {
     user: User | null;
+    authState: AuthState;
     isAuthenticated: boolean;
     isLoading: boolean;
     login: (username: string, password: string) => Promise<{ success: boolean; message?: string }>;
@@ -22,7 +29,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [authState, setAuthState] = useState<AuthState>('initializing');
 
     // Check authentication status on mount
     useEffect(() => {
@@ -30,29 +37,62 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }, []);
 
     const checkAuthStatus = async () => {
-        try {
-            // Try to refresh token to verify authentication
-            const result = await refreshToken();
-            if (result.success) {
-                // Fetch user details so we persist session on reload
-                const me = await fetchUserData();
-                if (me.success && me.data) {
-                    setUser({
-                        id: me.data.id as GUID,
-                        username: me.data.username,
-                        email: me.data.email
-                    });
-                } else {
-                    setUser(null);
-                }
-            } else {
-                setUser(null);
-            }
-        } catch (error) {
-            setUser(null);
-        } finally {
-            setIsLoading(false);
+        console.log('[AuthContext] checkAuthStatus starting...');
+
+        // If an auth check is already in progress, wait for it instead of starting a new one
+        if (isCheckingAuth && authCheckPromise) {
+            console.log('[AuthContext] Auth check already in progress, waiting for it...');
+            await authCheckPromise;
+            console.log('[AuthContext] Previous auth check completed, skipping duplicate');
+            return;
         }
+
+        isCheckingAuth = true;
+
+        // Wrap the auth check in a promise that can be awaited
+        authCheckPromise = (async () => {
+            try {
+                // Try to refresh token to verify authentication
+                console.log('[AuthContext] Calling refreshToken...');
+                const result = await refreshToken();
+                console.log('[AuthContext] refreshToken result:', result);
+
+                if (result.success) {
+                    // Fetch user details so we persist session on reload
+                    console.log('[AuthContext] Calling fetchUserData...');
+                    const me = await fetchUserData();
+                    console.log('[AuthContext] fetchUserData result:', me);
+
+                    if (me.success && me.data) {
+                        console.log('[AuthContext] Setting authenticated state with user:', me.data.username);
+                        setUser({
+                            id: me.data.id as GUID,
+                            username: me.data.username,
+                            email: me.data.email
+                        });
+                        setAuthState('authenticated');
+                    } else {
+                        console.log('[AuthContext] fetchUserData failed, setting unauthenticated');
+                        setUser(null);
+                        setAuthState('unauthenticated');
+                    }
+                } else {
+                    console.log('[AuthContext] refreshToken failed, setting unauthenticated');
+                    setUser(null);
+                    setAuthState('unauthenticated');
+                }
+            } catch (error) {
+                console.error('[AuthContext] checkAuthStatus error:', error);
+                setUser(null);
+                setAuthState('unauthenticated');
+            } finally {
+                isCheckingAuth = false;
+                authCheckPromise = null;
+                console.log('[AuthContext] checkAuthStatus completed');
+            }
+        })();
+
+        await authCheckPromise;
     };
 
     const login = async (username: string, password: string) => {
@@ -67,6 +107,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                         username: me.data.username,
                         email: me.data.email
                     });
+                    setAuthState('authenticated');
                     return { success: true };
                 }
                 return { success: false, message: me.message || 'Failed to load user profile.' };
@@ -92,13 +133,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const logout = async () => {
         await logoutUser();
         setUser(null);
+        setAuthState('unauthenticated');
     };
 
     return (
         <AuthContext.Provider value={{
             user,
-            isAuthenticated: !!user,
-            isLoading,
+            authState,
+            isAuthenticated: authState === 'authenticated',
+            isLoading: authState === 'initializing',
             login,
             register,
             logout

@@ -1,38 +1,46 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import '../css/CreateStack.css';
-import {createStack, PackageInfo, StackType} from "../utils/Api/Stacks";
-import {NavLink, useNavigate} from "react-router-dom";
-
-
-interface PackageRow {
-    id: number;
-    name: string;
-    link: string;
-}
+import { createStack, PackageInfo, StackType, fetchVerifiedPackages } from "../utils/Api/Stacks";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from '../contexts/AuthContext';
+import AddPackageModal from '../components/Global/AddPackageModal';
 
 function CreateStack() {
     const [name, setName] = useState('');
     const [type, setType] = useState('FRONTEND');
     const [description, setDescription] = useState('');
-    const [packageRows, setPackageRows] = useState<PackageRow[]>([]);
-    const [nextId, setNextId] = useState(1);
+    const [packages, setPackages] = useState<PackageInfo[]>([]);
+    const [verifiedPackages, setVerifiedPackages] = useState<PackageInfo[]>([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const { isLoading: authLoading } = useAuth();
 
-    const addPackageRow = () => {
-        setPackageRows([...packageRows, { id: nextId, name: '', link: '' }]);
-        setNextId(nextId + 1);
+    useEffect(() => {
+        if (authLoading) return;
+
+        const loadVerifiedPackages = async () => {
+            try {
+                const response = await fetchVerifiedPackages();
+                if (response.success && response.data) {
+                    setVerifiedPackages(response.data);
+                } else {
+                    console.error('Failed to fetch verified packages:', response.message);
+                }
+            } catch (err) {
+                console.error('Error loading verified packages:', err);
+            }
+        };
+        loadVerifiedPackages();
+    }, [authLoading]);
+
+    const handleAddPackage = (pkg: PackageInfo) => {
+        setPackages([...packages, pkg]);
     };
 
-    const removePackageRow = (id: number) => {
-        setPackageRows(packageRows.filter(row => row.id !== id));
-    };
-
-    const updatePackage = (id: number, field: 'name' | 'link', value: string) => {
-        setPackageRows(packageRows.map(row =>
-            row.id === id ? { ...row, [field]: value } : row
-        ));
+    const removePackage = (index: number) => {
+        setPackages(packages.filter((_, i) => i !== index));
     };
 
     const handleSubmit = async (e: FormEvent) => {
@@ -40,15 +48,17 @@ function CreateStack() {
         setError('');
         setIsLoading(true);
 
-        const validPackages = packageRows
-            .filter(row => row.name.trim() !== '' && row.link.trim() !== '')
-            .map(row => ({ name: row.name.trim(), link: row.link.trim() }));
+        if (packages.length === 0) {
+            setError('Please add at least one package');
+            setIsLoading(false);
+            return;
+        }
 
         try {
-            const response = await createStack(name, description, type as StackType, validPackages);
+            const response = await createStack(name, description, type as StackType, packages);
 
             if (response.success) {
-                navigate(`/StackInfo/${response.data?.id}`);
+                navigate(`/stackinfo/${response.data?.id}`);
             } else {
                 setError(response.message || 'Failed to create stack');
             }
@@ -94,38 +104,52 @@ function CreateStack() {
                     <div className="create-stack-left">
                         <div className="create-stack-packages-header">
                             <h2 className="create-stack-packages-title">Packages</h2>
-                            <button type="button" className="create-stack-add-package" onClick={addPackageRow} disabled={isLoading}>+</button>
+                            <button
+                                type="button"
+                                className="create-stack-add-package"
+                                onClick={() => setIsModalOpen(true)}
+                                disabled={isLoading}
+                            >
+                                +
+                            </button>
                         </div>
 
                         <div className="create-stack-packages-list">
-                            {packageRows.map(row => (
-                                <div key={row.id} className="create-stack-package-row">
-                                    <input
-                                        type="text"
-                                        className="create-stack-package-input"
-                                        placeholder="Package name"
-                                        value={row.name}
-                                        onChange={(e) => updatePackage(row.id, 'name', e.target.value)}
-                                        disabled={isLoading}
-                                    />
-                                    <input
-                                        type="text"
-                                        className="create-stack-package-input"
-                                        placeholder="Package link"
-                                        value={row.link}
-                                        onChange={(e) => updatePackage(row.id, 'link', e.target.value)}
-                                        disabled={isLoading}
-                                    />
-                                    <button
-                                        type="button"
-                                        className="create-stack-package-remove"
-                                        onClick={() => removePackageRow(row.id)}
-                                        disabled={isLoading}
-                                    >
-                                        &times;
-                                    </button>
+                            {packages.length === 0 ? (
+                                <div className="create-stack-empty-state">
+                                    No packages added yet. Click + to add a package.
                                 </div>
-                            ))}
+                            ) : (
+                                packages.map((pkg, index) => (
+                                    <div key={index} className="create-stack-package-item">
+                                        <div className="create-stack-package-info">
+                                            <div className="create-stack-package-name">
+                                                {pkg.name}
+                                                {pkg.isVerified && (
+                                                    <span className="create-stack-verified-badge">✓</span>
+                                                )}
+                                            </div>
+                                            <a
+                                                href={pkg.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="create-stack-package-link"
+                                            >
+                                                {pkg.link}
+                                            </a>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="create-stack-package-remove"
+                                            onClick={() => removePackage(index)}
+                                            disabled={isLoading}
+                                            aria-label="Remove package"
+                                        >
+                                            &times;
+                                        </button>
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </div>
 
@@ -142,6 +166,13 @@ function CreateStack() {
                     </button>
                 </div>
             </form>
+
+            <AddPackageModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onAdd={handleAddPackage}
+                verifiedPackages={verifiedPackages}
+            />
         </div>
     );
 }

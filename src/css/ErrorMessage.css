@@ -1,0 +1,77 @@
+.error-message {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: #d32f2f;
+    background-color: #ffebee;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    border-left: 4px solid #d32f2f;
+}
+
+.error-message-text {
+    flex: 1;
+}
+
+.error-message-dismiss {
+    background: none;
+    border: none;
+    color: #d32f2f;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.error-message-dismiss:hover {
+    background-color: rgba(211, 47, 47, 0.1);
+}
+
+.success-message {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: #2e7d32;
+    background-color: #e8f5e9;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    border-left: 4px solid #2e7d32;
+}
+
+.success-message-text {
+    flex: 1;
+}
+
+.success-message-dismiss {
+    background: none;
+    border: none;
+    color: #2e7d32;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.success-message-dismiss:hover {
+    background-color: rgba(46, 125, 50, 0.1);
+}

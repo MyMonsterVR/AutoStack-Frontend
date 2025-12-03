@@ -5,7 +5,7 @@ import AutostackLogo from '../../images/AutostackLogo.png';
 import '../../css/Navbar.css';
 
 function Navbar() {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, isLoading, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -33,7 +33,12 @@ function Navbar() {
                             <NavLink to="/BrowseTemplates" className={({ isActive }) => isActive ? 'nav-link nav-link-active' : 'nav-link'}>Templates</NavLink>
                         </li>
 
-                        {!isAuthenticated ? (
+                        {isLoading ? (
+                            <>
+                                <li><div className="nav-skeleton" /></li>
+                                <li><div className="nav-skeleton" /></li>
+                            </>
+                        ) : !isAuthenticated ? (
                             <>
                                 <li>
                                     <NavLink to="/Login" className="nav-link nav-link-signin">Sign in</NavLink>

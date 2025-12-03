@@ -9,6 +9,7 @@ interface ModalProps {
   ariaLabel?: string;
   disableBackdropClick?: boolean;
   disableEscapeKey?: boolean;
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export default function Modal({
@@ -17,7 +18,8 @@ export default function Modal({
   children,
   ariaLabel = 'Modal dialog',
   disableBackdropClick = false,
-  disableEscapeKey = false
+  disableEscapeKey = false,
+  size = 'md'
 }: ModalProps) {
   // ESC key handler and body scroll lock
   useEffect(() => {
@@ -49,7 +51,7 @@ export default function Modal({
   return createPortal(
     <div className="modal-backdrop" onClick={handleBackdropClick}>
       <div
-        className="modal-container"
+        className={`modal-container modal-${size}`}
         role="dialog"
         aria-modal="true"
         aria-label={ariaLabel}
