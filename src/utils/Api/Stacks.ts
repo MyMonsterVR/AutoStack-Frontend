@@ -108,7 +108,7 @@ export const createStack = async (
     description: string,
     type: StackType,
     packages: PackageInfo[]
-): Promise<{ success: boolean; message?: string; data?: { id: GUID } }> => {
+): Promise<{ success: boolean; message?: string; data?: { id: GUID }; errors?: Record<string, string[]> }> => {
     try {
         const url = `${API_BASE_URL}/stack/create`;
         const response = await axiosInstance.post(url, {
@@ -123,9 +123,16 @@ export const createStack = async (
         if (response.data.success) {
             return { success: true, data: { id: response.data.data.id } };
         } else {
-            return { success: false, message: response.data.message };
+            return { success: false, message: response.data.message, errors: response.data.errors };
         }
     } catch (error: any) {
+        if (error.response?.data) {
+            return {
+                success: false,
+                message: error.response.data.message || error.message,
+                errors: error.response.data.errors
+            };
+        }
         return { success: false, message: error.message };
     }
 };

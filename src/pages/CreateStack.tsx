@@ -1,9 +1,17 @@
 import React, { useState, useEffect, FormEvent } from 'react';
 import '../css/CreateStack.css';
-import { createStack, PackageInfo, StackType, fetchVerifiedPackages } from "../utils/Api/Stacks";
+import {
+    createStack,
+    PackageInfo,
+    StackType,
+    fetchVerifiedPackages,
+    fetchStacks,
+    StackResponseSuccess, StackInfoType
+} from "../utils/Api/Stacks";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
 import AddPackageModal from '../components/Global/AddPackageModal';
+import {addToStacks, clearStacks} from "../utils/storedStacks";
 
 function CreateStack() {
     const [name, setName] = useState('');
@@ -13,6 +21,7 @@ function CreateStack() {
     const [verifiedPackages, setVerifiedPackages] = useState<PackageInfo[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [error, setError] = useState('');
+    const [validationErrors, setValidationErrors] = useState<Record<string, string[]>>({});
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const { isLoading: authLoading } = useAuth();
@@ -46,6 +55,7 @@ function CreateStack() {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setError('');
+        setValidationErrors({});
         setIsLoading(true);
 
         if (packages.length === 0) {
@@ -58,9 +68,27 @@ function CreateStack() {
             const response = await createStack(name, description, type as StackType, packages);
 
             if (response.success) {
-                navigate(`/stackinfo/${response.data?.id}`);
+                fetchStacks().then((res) => {
+                    if ('data' in res) {
+                        const result = res as StackResponseSuccess;
+                        clearStacks();
+                        result.data.items.forEach((stackInfo: StackInfoType) => {
+                            addToStacks(stackInfo.id, stackInfo);
+                        });
+                        navigate(`/stackinfo/${response.data?.id}`);
+                    } else {
+                        console.error('fetchStacks returned an error response', res);
+                    }
+                }).catch(err => {
+                    console.error('fetchStacks failed', err);
+                });
             } else {
-                setError(response.message || 'Failed to create stack');
+                if (response.errors && Object.keys(response.errors).length > 0) {
+                    setError('Some fields do not meet the requirements');
+                    setValidationErrors(response.errors);
+                } else {
+                    setError(response.message || 'Failed to create stack');
+                }
             }
         } catch (err: any) {
             console.error('Create stack error:', err);
@@ -83,7 +111,16 @@ function CreateStack() {
                             marginBottom: '1rem',
                             fontSize: '0.9rem'
                         }}>
-                            {error}
+                            <div style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>{error}</div>
+                            {Object.keys(validationErrors).length > 0 && (
+                                <ul style={{ margin: '0.5rem 0 0 0', paddingLeft: '1.25rem' }}>
+                                    {Object.entries(validationErrors).map(([field, errors]) => (
+                                        errors.map((errorMsg, index) => (
+                                            <li key={`${field}-${index}`}>{errorMsg}</li>
+                                        ))
+                                    ))}
+                                </ul>
+                            )}
                         </div>
                     )}
 

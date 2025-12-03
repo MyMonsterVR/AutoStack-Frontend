@@ -25,8 +25,8 @@ function App() {
     useEffect(() => {
         fetchStacks().then((res) => {
             if ('data' in res) {
-                const success = res as StackResponseSuccess;
-                success.data.items.forEach((stackInfo: StackInfoType) => {
+                const result = res as StackResponseSuccess;
+                result.data.items.forEach((stackInfo: StackInfoType) => {
                     addToStacks(stackInfo.id, stackInfo);
                 });
             } else {

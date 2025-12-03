@@ -24,3 +24,8 @@ export const addToStacks = (key: GUID, info: StackInfoType) => {
 export const getStackInfo = (key: GUID): StackInfoType | undefined => {
     return stackInfo.get(key);
 };
+
+export const clearStacks = () =>
+{
+    stackInfo.clear();
+}
