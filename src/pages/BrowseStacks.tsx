@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { NavLink } from 'react-router-dom';
 import '../css/BrowseStacks.css';
 import '../css/Global.css';
-import {stackInfo, subscribeStacks} from "../utils/storedStacks";
+import {addToStacks, clearStacks} from "../utils/storedStacks";
 import StackSummary from "../components/Global/StackSummary";
+import { fetchStacks, SortBy, SortingOrder, StackInfoType } from "../utils/Api/Stacks";
 
 // Simple skeleton component
 function SkeletonCard() {
@@ -17,40 +18,60 @@ function SkeletonCard() {
 }
 
 function BrowseStacks() {
-    const [, forceUpdate] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const [mostDownloadedStacks, setMostDownloadedStacks] = useState<StackInfoType[]>([]);
+    const [recentStacks, setRecentStacks] = useState<StackInfoType[]>([]);
 
     useEffect(() => {
-        const unsubscribe = subscribeStacks(() => {
-            forceUpdate({});
-            setIsLoading(false);
-        });
+        const loadStacks = async () => {
+            setIsLoading(true);
 
-        if (stackInfo.size > 0) {
-            setIsLoading(false);
-        }
+            // Fetch most downloaded stacks (sorted by Popularity descending)
+            const downloadedResponse = await fetchStacks(
+                SortBy.Popularity,
+                SortingOrder.DESC,
+                undefined,
+                1,
+                20
+            );
 
-        return () => {
-            unsubscribe();
+            if (downloadedResponse.success && 'data' in downloadedResponse) {
+                setMostDownloadedStacks(downloadedResponse.data.items);
+                // Add to global store for caching
+                downloadedResponse.data.items.forEach(stack => addToStacks(stack.id, stack));
+            }
+
+            // Fetch recent stacks (sorted by PostedDate descending)
+            const recentResponse = await fetchStacks(
+                SortBy.PostedDate,
+                SortingOrder.DESC,
+                undefined,
+                1,
+                20
+            );
+
+            if (recentResponse.success && 'data' in recentResponse) {
+                setRecentStacks(recentResponse.data.items);
+                // Add to global store for caching
+                recentResponse.data.items.forEach(stack => addToStacks(stack.id, stack));
+            }
+
+            setIsLoading(false);
         };
+
+        loadStacks();
     }, []);
 
-    const stackSummariesByDownloads = Array.from(stackInfo.values()).sort((a,b)=> {
-        return a.downloads < b.downloads ? 1 : -1;
-    }).map(info => (
+    const stackSummariesByDownloads = mostDownloadedStacks.map(info => (
         <NavLink className="textDecoration-none" to={`/StackInfo/${info.id}`} key={info.id}>
             <StackSummary id={info.id} />
         </NavLink>
     ));
 
-    const stackSummariesByDate = Array.from(stackInfo.values())
-        .sort((a,b)=> {
-            return Date.parse(a.createdAt) < Date.parse(b.createdAt) ? 1 : -1;
-        })
-        .map(info => (
-            <NavLink className="textDecoration-none" to={`/StackInfo/${info.id}`} key={info.id}>
-                <StackSummary id={info.id} />
-            </NavLink>
+    const stackSummariesByDate = recentStacks.map(info => (
+        <NavLink className="textDecoration-none" to={`/StackInfo/${info.id}`} key={info.id}>
+            <StackSummary id={info.id} />
+        </NavLink>
     ));
 
     return (
