@@ -35,7 +35,6 @@ function Dashboard() {
         <div className="stacks">
             <div className="my-stacks">
                 <div className="my-header">
-                    <input type="text" className="my-search" placeholder="Search"/>
                     <NavLink to="/CreateStack" className="my-create">Create Stack</NavLink>
                 </div>
 
