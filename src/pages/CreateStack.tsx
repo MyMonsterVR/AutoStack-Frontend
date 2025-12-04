@@ -10,7 +10,7 @@ import {
 } from "../utils/Api/Stacks";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
-import AddPackageModal from '../components/Global/AddPackageModal';
+import AddPackageModal from '../components/CreateStack/AddPackageModal';
 import {addToStacks, clearStacks} from "../utils/storedStacks";
 
 function CreateStack() {

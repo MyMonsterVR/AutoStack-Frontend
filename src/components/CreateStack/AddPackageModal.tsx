@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Modal from './Modal';
+import Modal from '../Global/Modal';
 import { PackageInfo } from '../../utils/Api/Stacks';
 import '../../css/AddPackageModal.css';
 

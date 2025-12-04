@@ -32,7 +32,7 @@ function BrowseStacks() {
                 SortingOrder.DESC,
                 undefined,
                 1,
-                20
+                21
             );
 
             if (downloadedResponse.success && 'data' in downloadedResponse) {
@@ -47,7 +47,7 @@ function BrowseStacks() {
                 SortingOrder.DESC,
                 undefined,
                 1,
-                20
+                21
             );
 
             if (recentResponse.success && 'data' in recentResponse) {
