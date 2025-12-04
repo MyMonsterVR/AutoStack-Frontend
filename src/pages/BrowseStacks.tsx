@@ -56,14 +56,6 @@ function BrowseStacks() {
     return (
         <div className="browse">
             <div className="browse-stacks">
-                <div className="browse-header">
-                    <input type="text" className="browse-stacks-search" placeholder="Search"/>
-
-                    <div className="browse-stacks-filters">
-                        <button className="browse-stacks-filter-btn">Popular descending</button>
-                        <button className="browse-stacks-filter-btn">Rating</button>
-                    </div>
-                </div>
 
                 <div className="browse-stacks-section">
                     <h2 className="browse-section-title">Most downloaded</h2>

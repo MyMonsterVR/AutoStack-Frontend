@@ -88,7 +88,7 @@ function AppContent() {
                 } />
             </Routes>
 
-            {!shouldHideLayout && <Footer />}
+            {/* {!shouldHideLayout && <Footer />} */}
         </>
     );
 }
