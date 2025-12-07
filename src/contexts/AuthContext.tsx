@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { loginUser, registerUser, logoutUser, refreshToken } from '../utils/Api/Auth';
 import { fetchUserData } from '../utils/Api/UserData';
+import { verify2FALogin, verify2FARecovery } from '../utils/Api/TwoFactor';
 import {GUID} from "../utils/global";
 
-type AuthState = 'initializing' | 'authenticated' | 'unauthenticated';
+type AuthState = 'initializing' | 'authenticated' | 'unauthenticated' | 'awaiting2fa';
 
 // Global flag to prevent concurrent auth checks across component remounts
 let isCheckingAuth = false;
@@ -20,9 +21,12 @@ interface AuthContextType {
     authState: AuthState;
     isAuthenticated: boolean;
     isLoading: boolean;
-    login: (username: string, password: string) => Promise<{ success: boolean; message?: string }>;
+    twoFactorRequired: boolean;
+    twoFactorToken: string | null;
+    login: (username: string, password: string) => Promise<{ success: boolean; message?: string; requiresTwoFactor?: boolean }>;
     register: (email: string, username: string, password: string, confirmPassword: string) => Promise<{ success: boolean; message?: string }>;
     logout: () => Promise<void>;
+    verifyTwoFactor: (code: string, isRecoveryCode?: boolean) => Promise<{ success: boolean; message?: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,6 +34,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [authState, setAuthState] = useState<AuthState>('initializing');
+    const [twoFactorToken, setTwoFactorToken] = useState<string | null>(null);
 
     // Check authentication status on mount
     useEffect(() => {
@@ -99,7 +104,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
             const result = await loginUser(username, password);
             if (result.success) {
-                // Fetch user details after login
+                // Check if 2FA is required
+                if (result.data?.requiresTwoFactor && result.data?.twoFactorToken) {
+                    setTwoFactorToken(result.data.twoFactorToken);
+                    setAuthState('awaiting2fa');
+                    return { success: true, requiresTwoFactor: true };
+                }
+
+                // No 2FA required - fetch user details and complete login
                 const me = await fetchUserData();
                 if (me.success && me.data) {
                     setUser({
@@ -134,6 +146,39 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         await logoutUser();
         setUser(null);
         setAuthState('unauthenticated');
+        setTwoFactorToken(null);
+    };
+
+    const verifyTwoFactor = async (code: string, isRecoveryCode: boolean = false) => {
+        if (!twoFactorToken) {
+            return { success: false, message: 'No two-factor token available' };
+        }
+
+        try {
+            const result = isRecoveryCode
+                ? await verify2FARecovery(twoFactorToken, code)
+                : await verify2FALogin(twoFactorToken, code);
+
+            if (result.accessToken && result.refreshToken) {
+                // 2FA verification successful - fetch user details
+                const me = await fetchUserData();
+                if (me.success && me.data) {
+                    setUser({
+                        id: me.data.id as GUID,
+                        username: me.data.username,
+                        email: me.data.email
+                    });
+                    setAuthState('authenticated');
+                    setTwoFactorToken(null);
+                    return { success: true };
+                }
+                return { success: false, message: me.message || 'Failed to load user profile.' };
+            }
+
+            return { success: false, message: 'Invalid verification code' };
+        } catch (error: any) {
+            return { success: false, message: error.response?.data?.message || error.message || 'Verification failed' };
+        }
     };
 
     return (
@@ -142,9 +187,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             authState,
             isAuthenticated: authState === 'authenticated',
             isLoading: authState === 'initializing',
+            twoFactorRequired: authState === 'awaiting2fa',
+            twoFactorToken,
             login,
             register,
-            logout
+            logout,
+            verifyTwoFactor
         }}>
             {children}
         </AuthContext.Provider>

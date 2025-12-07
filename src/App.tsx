@@ -17,6 +17,7 @@ import Login from './pages/Login';
 import MyAccount from './pages/MyAccount';
 import Register from './pages/Register';
 import StackInfoPage from './pages/StackInfo';
+import TwoFactorVerify from './pages/TwoFactorVerify';
 
 import { addToStacks } from "./utils/storedStacks";
 import { fetchStacks, StackInfoType, StackResponseSuccess } from "./utils/Api/Stacks";
@@ -47,7 +48,7 @@ function App() {
 function AppContent() {
     const { authState } = useAuth();
     const location = useLocation();
-    const hideLayoutOn = ["/Login", "/Register"];
+    const hideLayoutOn = ["/Login", "/Register", "/2fa/verify"];
     const shouldHideLayout = hideLayoutOn.includes(location.pathname);
 
     if (authState === 'initializing') {
@@ -69,6 +70,7 @@ function AppContent() {
                 <Route path="/Download" element={<Download />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
+                <Route path="/2fa/verify" element={<TwoFactorVerify />} />
                 <Route path="/StackInfo/:id" element={<StackInfoPage />} />
 
                 <Route path="/CreateStack" element={

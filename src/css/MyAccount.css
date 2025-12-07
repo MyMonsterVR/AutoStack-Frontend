@@ -50,6 +50,13 @@
     color: #f5f5f5;
 }
 
+.my-account-section-subtitle {
+    margin: 0 0 20px 0;
+    font-size: 14px;
+    color: #7c7c7c;
+    line-height: 1.5;
+}
+
 /* ---------- FORM FIELDS ---------- */
 .my-account-field {
     margin-bottom: 22px;

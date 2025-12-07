@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { fetchUserData, editUser, uploadAvatar } from '../utils/Api/UserData';
 import { GUID } from '../utils/global';
 import { useNavigate } from 'react-router-dom';
+import TwoFactorStatus from '../components/TwoFactor/TwoFactorStatus';
 import '../css/MyAccount.css';
 
 function MyAccount() {
@@ -326,6 +327,14 @@ function MyAccount() {
                         />
                     </div>
                     <button className="my-account-btn" onClick={handleUpdatePassword}>Update Password</button>
+                </div>
+
+                <div className="my-account-section">
+                    <h2 className="my-account-section-title">Two-Factor Authentication</h2>
+                    <p className="my-account-section-subtitle">
+                        Add an extra layer of security to your account by requiring a verification code from your authenticator app.
+                    </p>
+                    <TwoFactorStatus />
                 </div>
             </div>
         </div>

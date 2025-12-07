@@ -7,11 +7,17 @@ interface AuthResponse {
     message?: string;
     accessToken?: string;
     refreshToken?: string;
+    data?: {
+        requiresTwoFactor?: boolean;
+        twoFactorToken?: string;
+        accessToken?: string;
+        refreshToken?: string;
+    };
 }
 
 export const loginUser = async (username: string, password: string): Promise<AuthResponse> => {
     try {
-        await axios.post(
+        const response = await axios.post(
             `${API_BASE_URL}/login`,
             { username, password },
             {
@@ -19,6 +25,17 @@ export const loginUser = async (username: string, password: string): Promise<Aut
                 headers: { 'Content-Type': 'application/json' }
             }
         );
+
+        // Check if response contains 2FA requirement
+        if (response.data?.requiresTwoFactor && response.data?.twoFactorToken) {
+            return {
+                success: true,
+                data: {
+                    requiresTwoFactor: true,
+                    twoFactorToken: response.data.twoFactorToken
+                }
+            };
+        }
 
         return { success: true };
     } catch (error: any) {

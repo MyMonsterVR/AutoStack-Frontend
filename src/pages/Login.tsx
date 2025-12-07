@@ -34,7 +34,12 @@ function Login() {
             const result = await login(username, password);
 
             if (result.success) {
-                navigate(from, { replace: true });
+                // Check if 2FA is required
+                if (result.requiresTwoFactor) {
+                    navigate('/2fa/verify', { replace: true, state: { from } });
+                } else {
+                    navigate(from, { replace: true });
+                }
             } else {
                 setError(result.message || 'Login failed. Please check your credentials.');
             }
