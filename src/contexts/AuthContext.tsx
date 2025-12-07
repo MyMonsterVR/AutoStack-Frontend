@@ -42,13 +42,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }, []);
 
     const checkAuthStatus = async () => {
-        console.log('[AuthContext] checkAuthStatus starting...');
-
         // If an auth check is already in progress, wait for it instead of starting a new one
         if (isCheckingAuth && authCheckPromise) {
-            console.log('[AuthContext] Auth check already in progress, waiting for it...');
             await authCheckPromise;
-            console.log('[AuthContext] Previous auth check completed, skipping duplicate');
             return;
         }
 
@@ -58,18 +54,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         authCheckPromise = (async () => {
             try {
                 // Try to refresh token to verify authentication
-                console.log('[AuthContext] Calling refreshToken...');
                 const result = await refreshToken();
-                console.log('[AuthContext] refreshToken result:', result);
 
                 if (result.success) {
                     // Fetch user details so we persist session on reload
-                    console.log('[AuthContext] Calling fetchUserData...');
                     const me = await fetchUserData();
-                    console.log('[AuthContext] fetchUserData result:', me);
 
                     if (me.success && me.data) {
-                        console.log('[AuthContext] Setting authenticated state with user:', me.data.username);
                         setUser({
                             id: me.data.id as GUID,
                             username: me.data.username,
@@ -77,23 +68,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                         });
                         setAuthState('authenticated');
                     } else {
-                        console.log('[AuthContext] fetchUserData failed, setting unauthenticated');
                         setUser(null);
                         setAuthState('unauthenticated');
                     }
                 } else {
-                    console.log('[AuthContext] refreshToken failed, setting unauthenticated');
+                    // Refresh token failed - this is normal if user isn't logged in
                     setUser(null);
                     setAuthState('unauthenticated');
                 }
-            } catch (error) {
-                console.error('[AuthContext] checkAuthStatus error:', error);
+            } catch (error: any) {
                 setUser(null);
                 setAuthState('unauthenticated');
             } finally {
                 isCheckingAuth = false;
                 authCheckPromise = null;
-                console.log('[AuthContext] checkAuthStatus completed');
             }
         })();
 
@@ -160,7 +148,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 : await verify2FALogin(twoFactorToken, code);
 
             if (result.accessToken && result.refreshToken) {
-                // 2FA verification successful - fetch user details
                 const me = await fetchUserData();
                 if (me.success && me.data) {
                     setUser({

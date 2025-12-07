@@ -8,11 +8,18 @@ function Login() {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const { login } = useAuth();
+    const { login, isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
     const from = (location.state as any)?.from?.pathname || '/';
+
+    // Redirect if already authenticated
+    React.useEffect(() => {
+        if (isAuthenticated) {
+            navigate(from, { replace: true });
+        }
+    }, [isAuthenticated, navigate, from]);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

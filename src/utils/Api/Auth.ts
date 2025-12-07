@@ -26,13 +26,15 @@ export const loginUser = async (username: string, password: string): Promise<Aut
             }
         );
 
+        const responseData = response.data?.data;
+
         // Check if response contains 2FA requirement
-        if (response.data?.requiresTwoFactor && response.data?.twoFactorToken) {
+        if (responseData?.requiresTwoFactor && responseData?.twoFactorToken) {
             return {
                 success: true,
                 data: {
                     requiresTwoFactor: true,
-                    twoFactorToken: response.data.twoFactorToken
+                    twoFactorToken: responseData.twoFactorToken
                 }
             };
         }

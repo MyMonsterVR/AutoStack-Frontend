@@ -11,8 +11,24 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     const { authState } = useAuth();
     const location = useLocation();
 
-    if (authState !== 'authenticated') {
+    // Show loading spinner while auth is initializing
+    if (authState === 'initializing') {
+        return (
+            <div className="loading-container">
+                <div className="loading-spinner"></div>
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
+    // Redirect to login only if explicitly unauthenticated
+    if (authState === 'unauthenticated') {
         return <Navigate to="/Login" state={{ from: location }} replace />;
+    }
+
+    // Redirect to 2FA verify if in the middle of 2FA flow
+    if (authState === 'awaiting2fa') {
+        return <Navigate to="/2fa/verify" state={{ from: location }} replace />;
     }
 
     return children;

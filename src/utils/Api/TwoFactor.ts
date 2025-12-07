@@ -70,7 +70,7 @@ export const verify2FALogin = async (
 ): Promise<VerifyLoginResponse> => {
     const response = await apiClient.post<{ success: boolean; data: VerifyLoginResponse }>('/2fa/verify', {
         twoFactorToken,
-        code
+        totpCode: code
     });
     return response.data.data;
 };
@@ -96,7 +96,6 @@ export const verify2FARecovery = async (
  */
 export const disable2FA = async (password: string, totpCode: string): Promise<void> => {
     await apiClient.post('/2fa/disable', {
-        userId: '', // Will be extracted from JWT by backend
         password,
         totpCode
     });
@@ -113,7 +112,6 @@ export const regenerateRecoveryCodes = async (
     const response = await apiClient.post<{ success: boolean; data: RegenerateRecoveryCodesResponse }>(
         '/2fa/recovery-codes/regenerate',
         {
-            userId: '', // Will be extracted from JWT by backend
             password,
             totpCode
         }
