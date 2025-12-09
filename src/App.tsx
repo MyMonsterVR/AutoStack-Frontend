@@ -12,10 +12,12 @@ import BrowseStacks from './pages/BrowseStacks';
 import CreateStack from './pages/CreateStack';
 import Dashboard from './pages/Dashboard';
 import Download from "./pages/Download";
+import ForgotPassword from './pages/ForgotPassword';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import MyAccount from './pages/MyAccount';
 import Register from './pages/Register';
+import ResetPassword from './pages/ResetPassword';
 import StackInfoPage from './pages/StackInfo';
 import TwoFactorVerify from './pages/TwoFactorVerify';
 
@@ -48,7 +50,7 @@ function App() {
 function AppContent() {
     const { authState } = useAuth();
     const location = useLocation();
-    const hideLayoutOn = ["/Login", "/Register", "/2fa/verify"];
+    const hideLayoutOn = ["/Login", "/Register", "/2fa/verify", "/ForgotPassword", "/ResetPassword"];
     const shouldHideLayout = hideLayoutOn.includes(location.pathname);
 
     if (authState === 'initializing') {
@@ -67,6 +69,8 @@ function AppContent() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/BrowseStacks" element={<BrowseStacks />} />
+                <Route path="/ForgotPassword" element={<ForgotPassword />} />
+                <Route path="/ResetPassword" element={<ResetPassword />} />
                 <Route path="/Download" element={<Download />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />

@@ -105,6 +105,9 @@ function Login() {
                     </button>
 
                     <div className="login-links">
+                        <NavLink to="/ForgotPassword" className="nav-link">
+                            Forgot your Password? Reset it here
+                        </NavLink>
                         <NavLink to="/Register" className="nav-link">
                             Don't have an account? Sign up
                         </NavLink>

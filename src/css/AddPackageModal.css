@@ -61,7 +61,7 @@
 
 .add-package-modal-input,
 .add-package-modal-select {
-    width: 96%;
+    width: 100%;
     padding: 0.75rem;
     border: 1px solid #3a3a3a;
     border-radius: 8px;

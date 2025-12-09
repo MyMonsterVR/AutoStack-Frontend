@@ -215,7 +215,7 @@ function MyAccount() {
                         <label>Avatar</label>
                         <div className="my-account-avatar-container">
                             <img
-                                src={avatarPreview || userData?.avatarUrl || 'https://via.placeholder.com/150'}
+                                src={userData?.avatarUrl}
                                 alt="User Avatar"
                                 className="my-account-avatar"
                             />

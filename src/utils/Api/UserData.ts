@@ -75,4 +75,3 @@ export const uploadAvatar = async (file: File): Promise<UserDataResponse> => {
         };
     }
 };
-

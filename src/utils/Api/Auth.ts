@@ -106,3 +106,53 @@ export const refreshToken = async (): Promise<AuthResponse> => {
         return { success: false, message: "Session expired. Please log in again." };
     }
 };
+
+export const forgotPassword = async (email: string): Promise<AuthResponse> => {
+    try {
+        const response = await axios.post(
+            `${API_BASE_URL}/forgot-password`,
+            { email },
+            {
+                withCredentials: true,
+                headers: { 'Content-Type': 'application/json' }
+            }
+        );
+
+        return {
+            success: true,
+            message: response.data?.message || "Password reset email sent successfully."
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.response?.data?.message || "Failed to send password reset email. Please try again."
+        };
+    }
+};
+
+export const resetPassword = async (
+    token: string,
+    newPassword: string,
+    confirmNewPassword: string
+): Promise<AuthResponse> => {
+    try {
+        const response = await axios.post(
+            `${API_BASE_URL}/reset-password`,
+            { token, newPassword, confirmNewPassword },
+            {
+                withCredentials: true,
+                headers: { 'Content-Type': 'application/json' }
+            }
+        );
+
+        return {
+            success: true,
+            message: response.data?.message || "Password reset successfully."
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.response?.data?.message || "Failed to reset password. Please try again."
+        };
+    }
+};
