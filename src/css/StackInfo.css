@@ -83,6 +83,30 @@
     box-shadow: 0 0 15px #3b82f640;
 }
 
+.stack-info-delete-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.stack-info-delete-button {
+    background: #dc2626;
+    padding: 8px 20px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.25s;
+    border: 1px solid #b91c1c;
+}
+
+.stack-info-delete-button:hover {
+    background: #b91c1c;
+    box-shadow: 0 0 15px #dc262640;
+    transform: translateY(-1px);
+}
+
 .stack-info-author {
     margin: 0;
     font-size: 14px;

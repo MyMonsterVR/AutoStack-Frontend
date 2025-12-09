@@ -150,3 +150,30 @@ export const fetchVerifiedPackages = async (): Promise<{ success: boolean; data?
         return { success: false, message: error.message || 'Failed to fetch verified packages' };
     }
 };
+
+export const deleteStack = async (id: GUID): Promise<{ success: boolean; message?: string }> => {
+    try {
+        const url = `${API_BASE_URL}/stack/deletestack`;
+        const response = await axiosInstance.delete(url, {
+            headers: { 'Content-Type': 'application/json' },
+            data: {
+                stackId: id,
+                userId: null
+            }
+        });
+
+        if (response.data.success) {
+            return { success: true, message: response.data.message || 'Stack deleted successfully' };
+        } else {
+            return { success: false, message: response.data.message || 'Failed to delete stack' };
+        }
+    } catch (error: any) {
+        if (error.response?.data) {
+            return {
+                success: false,
+                message: error.response.data.message || error.message
+            };
+        }
+        return { success: false, message: error.message || 'Failed to delete stack' };
+    }
+}

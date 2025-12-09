@@ -2,14 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import '../css/StackInfo.css';
 import { GUID } from "../utils/global";
-import {fetchStackById, StackInfoType} from "../utils/Api/Stacks";
+import {fetchStackById, StackInfoType, deleteStack} from "../utils/Api/Stacks";
 import ProtocolModal from "../components/Global/ProtocolModal";
+import {useAuth} from "../contexts/AuthContext";
 
 function StackInfo() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [stackInfo, setStackInfo] = useState({} as StackInfoType | null);
     const [modalState, setModalState] = useState<'loading' | 'error' | 'closed'>('closed');
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const TYPES: Record<string, string> = {
         "FRONTEND": "Frontend",
@@ -75,6 +78,31 @@ function StackInfo() {
         navigate('/download');
     };
 
+    const handleDelete = async () => {
+        if (!stackInfo || !id) return;
+
+        const confirmDelete = window.confirm(`Are you sure you want to delete "${stackInfo.name}"? This action cannot be undone.`);
+        if (!confirmDelete) return;
+
+        setIsDeleting(true);
+        try {
+            const result = await deleteStack(id as GUID);
+            if (result.success) {
+                alert(result.message || 'Stack deleted successfully');
+                navigate('/dashboard');
+            } else {
+                alert(result.message || 'Failed to delete stack');
+            }
+        } catch (error: any) {
+            console.error('Error deleting stack:', error);
+            alert('An error occurred while deleting the stack');
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const isOwner = user && stackInfo && user.id === stackInfo.userId;
+
     if (!stackInfo) {
         return (
             <div className="stack-info-page">
@@ -131,6 +159,18 @@ function StackInfo() {
                         </p>
                     </div>
                 </div>
+
+                {isOwner && (
+                    <div className="stack-info-delete-container">
+                        <div
+                            onClick={handleDelete}
+                            className="stack-info-delete-button"
+                            style={{ opacity: isDeleting ? 0.5 : 1, pointerEvents: isDeleting ? 'none' : 'auto' }}
+                        >
+                            <span>{isDeleting ? 'Deleting...' : 'Delete Stack'}</span>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <ProtocolModal

@@ -160,7 +160,7 @@ export default function AddPackageModal({ isOpen, onClose, onAdd, verifiedPackag
                                 id="custom-link"
                                 type="url"
                                 className="add-package-modal-input"
-                                placeholder="https://example.com"
+                                placeholder="https://www.npmjs.com/package/example"
                                 value={customLink}
                                 onChange={(e) => setCustomLink(e.target.value)}
                             />
