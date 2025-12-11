@@ -126,6 +126,11 @@ export const createStack = async (
             return { success: false, message: response.data.message, errors: response.data.errors };
         }
     } catch (error: any) {
+        // Re-throw 403 errors so useProtectedAction can handle them
+        if (error.response?.status === 403) {
+            throw error;
+        }
+
         if (error.response?.data) {
             return {
                 success: false,
@@ -147,6 +152,10 @@ export const fetchVerifiedPackages = async (): Promise<{ success: boolean; data?
             return { success: false, message: response.data.message };
         }
     } catch (error: any) {
+        // Re-throw 403 errors so useProtectedAction can handle them
+        if (error.response?.status === 403) {
+            throw error;
+        }
         return { success: false, message: error.message || 'Failed to fetch verified packages' };
     }
 };

@@ -1,0 +1,131 @@
+.email-verify-banner {
+    background: linear-gradient(135deg, #3a2f1f, #2a2419);
+    border: 1px solid #d97706;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.1);
+}
+
+.email-verify-banner-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    flex: 1;
+}
+
+.email-verify-banner-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.email-verify-banner-text h3 {
+    color: #fbbf24;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+}
+
+.email-verify-banner-text p {
+    color: #d1d5db;
+    font-size: 0.875rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.email-verify-banner-message {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.email-verify-banner-message.success {
+    background-color: rgba(46, 125, 50, 0.2);
+    color: #81c784;
+}
+
+.email-verify-banner-message.error {
+    background-color: rgba(211, 47, 47, 0.2);
+    color: #e57373;
+}
+
+.email-verify-banner-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.email-verify-banner-btn {
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.email-verify-banner-btn.primary {
+    background: #d97706;
+    color: white;
+}
+
+.email-verify-banner-btn.primary:hover {
+    background: #b45309;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+}
+
+.email-verify-banner-btn.secondary {
+    background: transparent;
+    color: #d97706;
+    border: 1px solid #d97706;
+}
+
+.email-verify-banner-btn.secondary:hover {
+    background: rgba(217, 119, 6, 0.1);
+}
+
+.email-verify-banner-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .email-verify-banner {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .email-verify-banner-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .email-verify-banner-icon {
+        align-self: center;
+    }
+
+    .email-verify-banner-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .email-verify-banner {
+        padding: 1rem;
+    }
+
+    .email-verify-banner-text h3 {
+        font-size: 0.9rem;
+    }
+
+    .email-verify-banner-text p {
+        font-size: 0.8rem;
+    }
+}

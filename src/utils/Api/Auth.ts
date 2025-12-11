@@ -12,6 +12,8 @@ interface AuthResponse {
         twoFactorToken?: string;
         accessToken?: string;
         refreshToken?: string;
+        userId?: string;
+        id?: string;
     };
 }
 
@@ -64,7 +66,14 @@ export const registerUser = async (
             }
         );
 
-        return { success: true, message: "Registration successful! Please log in." };
+        const responseData = response.data?.data;
+        return {
+            success: true,
+            message: "Registration successful!",
+            data: {
+                userId: responseData?.userId || responseData?.id
+            }
+        };
     } catch (error: any) {
         const errorMessage = error.response?.data?.errors
             ? Object.values(error.response.data.errors).flat().join(', ')

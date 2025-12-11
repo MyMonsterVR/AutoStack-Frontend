@@ -10,6 +10,7 @@ interface UserDataResponse {
         email: string;
         username: string;
         avatarUrl: string;
+        emailVerified: boolean;
     };
     message?: string;
 }

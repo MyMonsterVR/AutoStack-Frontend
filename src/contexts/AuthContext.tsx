@@ -14,6 +14,7 @@ interface User {
     id: string;
     username: string;
     email: string;
+    emailVerified: boolean;
 }
 
 interface AuthContextType {
@@ -23,10 +24,13 @@ interface AuthContextType {
     isLoading: boolean;
     twoFactorRequired: boolean;
     twoFactorToken: string | null;
+    emailVerificationPending: boolean;
+    pendingUserId: string | null;
     login: (username: string, password: string) => Promise<{ success: boolean; message?: string; requiresTwoFactor?: boolean }>;
-    register: (email: string, username: string, password: string, confirmPassword: string) => Promise<{ success: boolean; message?: string }>;
+    register: (email: string, username: string, password: string, confirmPassword: string) => Promise<{ success: boolean; message?: string; userId?: string }>;
     logout: () => Promise<void>;
     verifyTwoFactor: (code: string, isRecoveryCode?: boolean) => Promise<{ success: boolean; message?: string }>;
+    setEmailVerificationPending: (pending: boolean, userId?: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -35,6 +39,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [user, setUser] = useState<User | null>(null);
     const [authState, setAuthState] = useState<AuthState>('initializing');
     const [twoFactorToken, setTwoFactorToken] = useState<string | null>(null);
+    const [emailVerificationPending, setEmailVerificationPending] = useState<boolean>(false);
+    const [pendingUserId, setPendingUserId] = useState<string | null>(null);
 
     // Check authentication status on mount
     useEffect(() => {
@@ -64,7 +70,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                         setUser({
                             id: me.data.id as GUID,
                             username: me.data.username,
-                            email: me.data.email
+                            email: me.data.email,
+                            emailVerified: me.data.emailVerified || false
                         });
                         setAuthState('authenticated');
                     } else {
@@ -105,7 +112,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                     setUser({
                         id: me.data.id as GUID,
                         username: me.data.username,
-                        email: me.data.email
+                        email: me.data.email,
+                        emailVerified: me.data.emailVerified || false
                     });
                     setAuthState('authenticated');
                     return { success: true };
@@ -122,7 +130,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
             const result = await registerUser(email, username, password, confirmPassword);
             if (result.success) {
-                return { success: true };
+                // Registration successful - extract userId if available
+                const userId = result.data?.userId || result.data?.id;
+                return { success: true, userId };
             }
             return { success: false, message: result.message };
         } catch (error: any) {
@@ -153,7 +163,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                     setUser({
                         id: me.data.id as GUID,
                         username: me.data.username,
-                        email: me.data.email
+                        email: me.data.email,
+                        emailVerified: me.data.emailVerified || false
                     });
                     setAuthState('authenticated');
                     setTwoFactorToken(null);
@@ -168,6 +179,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
+    const handleSetEmailVerificationPending = (pending: boolean, userId?: string) => {
+        setEmailVerificationPending(pending);
+        setPendingUserId(userId || null);
+    };
+
     return (
         <AuthContext.Provider value={{
             user,
@@ -176,10 +192,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             isLoading: authState === 'initializing',
             twoFactorRequired: authState === 'awaiting2fa',
             twoFactorToken,
+            emailVerificationPending,
+            pendingUserId,
             login,
             register,
             logout,
-            verifyTwoFactor
+            verifyTwoFactor,
+            setEmailVerificationPending: handleSetEmailVerificationPending
         }}>
             {children}
         </AuthContext.Provider>

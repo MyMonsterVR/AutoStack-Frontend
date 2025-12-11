@@ -4,6 +4,8 @@ import { fetchUserData, editUser, uploadAvatar } from '../utils/Api/UserData';
 import { GUID } from '../utils/global';
 import { useNavigate } from 'react-router-dom';
 import TwoFactorStatus from '../components/TwoFactor/TwoFactorStatus';
+import EmailVerificationBanner from '../components/EmailVerification/EmailVerificationBanner';
+import EmailVerificationModal from '../components/EmailVerification/EmailVerificationModal';
 import '../css/MyAccount.css';
 
 function MyAccount() {
@@ -23,6 +25,7 @@ function MyAccount() {
     const [passwordError, setPasswordError] = useState('');
     const [profileSuccess, setProfileSuccess] = useState('');
     const [passwordSuccess, setPasswordSuccess] = useState('');
+    const [showVerificationModal, setShowVerificationModal] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -170,17 +173,39 @@ function MyAccount() {
         }
     };
 
+    const handleVerificationComplete = async () => {
+        setShowVerificationModal(false);
+        // Reload user data to get updated emailVerified status
+        const response = await fetchUserData();
+        if (response.success && response.data) {
+            setUserData(response.data);
+        }
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
 
     return (
         <div className="my-account">
+            <EmailVerificationModal
+                isOpen={showVerificationModal}
+                onClose={() => setShowVerificationModal(false)}
+                onVerified={handleVerificationComplete}
+                userId={user?.id || ''}
+            />
             <div className="my-account-container">
                 <div className="my-account-header">
                     <h1 className="my-account-title">My Account</h1>
                     <p className="my-account-subtitle">Manage your profile and settings</p>
                 </div>
+
+                {user && !user.emailVerified && (
+                    <EmailVerificationBanner
+                        onVerifyClick={() => setShowVerificationModal(true)}
+                        userId={user.id}
+                    />
+                )}
 
                 <div className="my-account-section">
                     <h2 className="my-account-section-title">Profile Information</h2>

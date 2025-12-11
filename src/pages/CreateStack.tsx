@@ -11,7 +11,9 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
 import AddPackageModal from '../components/CreateStack/AddPackageModal';
+import EmailVerificationModal from '../components/EmailVerification/EmailVerificationModal';
 import {addToStacks, clearStacks} from "../utils/storedStacks";
+import { useProtectedAction } from '../hooks/useProtectedAction';
 
 function CreateStack() {
     const [name, setName] = useState('');
@@ -25,6 +27,7 @@ function CreateStack() {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const { isLoading: authLoading } = useAuth();
+    const { executeProtected, showVerificationModal, handleVerificationComplete, handleModalClose, userId } = useProtectedAction();
 
     useEffect(() => {
         if (authLoading) return;
@@ -65,9 +68,9 @@ function CreateStack() {
         }
 
         try {
-            const response = await createStack(name, description, type as StackType, packages);
+            const response = await executeProtected(() => createStack(name, description, type as StackType, packages));
 
-            if (response.success) {
+            if (response && response.success) {
                 fetchStacks().then((res) => {
                     if ('data' in res) {
                         const result = res as StackResponseSuccess;
@@ -82,7 +85,7 @@ function CreateStack() {
                 }).catch(err => {
                     console.error('fetchStacks failed', err);
                 });
-            } else {
+            } else if (response) {
                 if (response.errors && Object.keys(response.errors).length > 0) {
                     setError('Some fields do not meet the requirements');
                     setValidationErrors(response.errors);
@@ -100,6 +103,12 @@ function CreateStack() {
 
     return (
         <div className="create-stack">
+            <EmailVerificationModal
+                isOpen={showVerificationModal}
+                onClose={handleModalClose}
+                onVerified={handleVerificationComplete}
+                userId={userId}
+            />
             <form className="create-stack-card" onSubmit={handleSubmit}>
                 <div className="create-stack-header">
                     {error && (

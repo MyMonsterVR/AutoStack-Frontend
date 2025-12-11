@@ -1,12 +1,15 @@
 import React, { FormEvent, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import EmailVerificationModal from '../components/EmailVerification/EmailVerificationModal';
 import AutostackLogo from '../images/AutostackLogo.png';
 import '../css/Register.css';
 
 function Register() {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [showVerificationModal, setShowVerificationModal] = useState(false);
+    const [registeredUserId, setRegisteredUserId] = useState<string>('');
 
     const { register } = useAuth();
     const navigate = useNavigate();
@@ -46,9 +49,16 @@ function Register() {
             const result = await register(email, username, password, confirmPassword);
 
             if (result.success) {
-                navigate('/Login', {
-                    state: { message: 'Registration successful! Please log in.' }
-                });
+                // Show verification modal instead of redirecting
+                if (result.userId) {
+                    setRegisteredUserId(result.userId);
+                    setShowVerificationModal(true);
+                } else {
+                    // Fallback if userId is not returned
+                    navigate('/Login', {
+                        state: { message: 'Registration successful! Please check your email to verify your account.' }
+                    });
+                }
             } else {
                 setError(result.message || 'Registration failed. Please try again.');
             }
@@ -60,8 +70,28 @@ function Register() {
         }
     };
 
+    const handleVerificationComplete = () => {
+        setShowVerificationModal(false);
+        navigate('/Login', {
+            state: { message: 'Email verified! You can now log in.' }
+        });
+    };
+
+    const handleModalClose = () => {
+        setShowVerificationModal(false);
+        navigate('/Login', {
+            state: { message: 'Registration successful! Please verify your email to access all features.' }
+        });
+    };
+
     return (
         <div className="register">
+            <EmailVerificationModal
+                isOpen={showVerificationModal}
+                onClose={handleModalClose}
+                onVerified={handleVerificationComplete}
+                userId={registeredUserId}
+            />
             <div className="register-card">
                 <NavLink to="/">
                     <img className="register-img" src={AutostackLogo} alt="Autostack Logo" />
