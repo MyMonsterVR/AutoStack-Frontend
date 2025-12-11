@@ -16,12 +16,14 @@ export default function ResetPassword() {
     const [success, setSuccess] = useState('');
 
     useEffect(() => {
-        // Get token from URL query parameters
-        const tokenFromUrl = searchParams.get('token');
-        if (tokenFromUrl) {
-            // Replace spaces back to + signs (URL decoding converts + to space)
-            const cleanedToken = tokenFromUrl.replace(/ /g, '+');
-            setToken(cleanedToken);
+        // Get token from URL query parameters without decoding + signs
+        const queryString = window.location.search;
+        const match = queryString.match(/[?&]token=([^&]*)/);
+        if (match && match[1]) {
+            // Decode URL encoding but preserve + signs by using decodeURIComponent
+            // which treats + as a literal character (unlike searchParams.get which treats + as space)
+            const tokenFromUrl = decodeURIComponent(match[1]);
+            setToken(tokenFromUrl);
         } else {
             setError('Invalid or missing reset token. Please request a new password reset.');
         }
@@ -43,7 +45,7 @@ export default function ResetPassword() {
             return;
         }
 
-        if (newPassword.length < 6) {
+        if (newPassword.length < 8) {
             setError('Password must be at least 6 characters long.');
             return;
         }
@@ -59,7 +61,7 @@ export default function ResetPassword() {
             const result = await resetPassword(token, newPassword, confirmNewPassword);
 
             if (result.success) {
-                setSuccess(result.message || 'Password reset successfully! Redirecting to login...');
+                setSuccess('Password reset successfully! Redirecting to login...');
                 setNewPassword('');
                 setConfirmNewPassword('');
 
@@ -90,15 +92,7 @@ export default function ResetPassword() {
                 </p>
 
                 {error && (
-                    <div style={{
-                        color: '#ef4444',
-                        backgroundColor: '#ef444420',
-                        padding: '0.75rem',
-                        borderRadius: '8px',
-                        marginBottom: '1rem',
-                        fontSize: '0.9rem',
-                        border: '1px solid #ef4444'
-                    }}>
+                    <div className="error-message">
                         {error}
                     </div>
                 )}
@@ -144,10 +138,6 @@ export default function ResetPassword() {
                         {loading ? 'Resetting...' : 'Reset Password'}
                     </button>
                 </form>
-
-                <div className="back-to-login">
-                    <NavLink to="/login">Back to Login</NavLink>
-                </div>
             </div>
         </div>
     );
