@@ -7,6 +7,8 @@ import '../css/Login.css';
 function Login() {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [navigationMessage, setNavigationMessage] = useState('');
+    const [messageType, setMessageType] = useState<'success' | 'info'>('success');
 
     const { login, isAuthenticated } = useAuth();
     const navigate = useNavigate();
@@ -21,9 +23,21 @@ function Login() {
         }
     }, [isAuthenticated, navigate, from]);
 
+    // Extract message from navigation state (e.g., after registration)
+    React.useEffect(() => {
+        const message = (location.state as any)?.message;
+        if (message) {
+            setNavigationMessage(message);
+            setMessageType(message.includes('verified') ? 'success' : 'info');
+            // Clear navigation state to prevent persistence on refresh
+            window.history.replaceState({}, document.title);
+        }
+    }, [location.state]);
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError('');
+        setNavigationMessage('');
         setIsLoading(true);
 
         const form = e.currentTarget;
@@ -68,6 +82,34 @@ function Login() {
                 <h1 className="login-title">Login</h1>
 
                 <p className="login-subtitle">Sign in to your AutoStack account</p>
+
+                {navigationMessage && messageType === 'success' && (
+                    <div style={{
+                        color: '#2e7d32',
+                        backgroundColor: '#e8f5e9',
+                        padding: '0.75rem',
+                        borderRadius: '8px',
+                        marginBottom: '1rem',
+                        fontSize: '0.9rem',
+                        border: '1px solid #2e7d32'
+                    }}>
+                        {navigationMessage}
+                    </div>
+                )}
+
+                {navigationMessage && messageType === 'info' && (
+                    <div style={{
+                        color: '#1976d2',
+                        backgroundColor: '#e3f2fd',
+                        padding: '0.75rem',
+                        borderRadius: '8px',
+                        marginBottom: '1rem',
+                        fontSize: '0.9rem',
+                        border: '1px solid #1976d2'
+                    }}>
+                        {navigationMessage}
+                    </div>
+                )}
 
                 {error && (
                     <div style={{
