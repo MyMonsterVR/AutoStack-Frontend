@@ -1,150 +1,342 @@
+/* ========================================
+   DOWNLOAD PAGE - MAIN CONTAINER
+   ======================================== */
 .download-page {
     min-height: 100dvh;
-    background: #1e1e1e;
-    padding: 30px;
-    font-family: Inter, system-ui, sans-serif;
-    color: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.download-card {
-    width: 100%;
-    max-width: 1400px;
-    background: #2a2a2a;
-    border-radius: 20px;
-    padding: 24px 28px;
-    border: 1px solid #ffffff10;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    background: #1e1e1e;
+    font-family: Inter, system-ui, sans-serif;
+    color: #f5f5f5;
 }
 
-/* HEADER */
-.download-header {
+/* ========================================
+   HERO BANNER SECTION
+   ======================================== */
+.download-hero {
+    width: 100%;
+    background: linear-gradient(145deg, #1f1f1f, #282f4a, #1f1f1f);
+    padding: 80px 30px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    gap: 16px;
+    border-bottom: 1px solid #ffffff10;
+    flex-shrink: 0;
 }
 
-.download-title {
+.download-hero-content {
+    max-width: 800px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.download-hero-title {
     margin: 0;
-    font-size: 26px;
+    font-size: 48px;
     font-weight: 800;
     letter-spacing: 0.02em;
+    color: #f5f5f5;
 }
 
-.download-subtitle {
-    margin: 4px 0 0 0;
-    font-size: 14px;
+.download-hero-subtitle {
+    margin: 0;
+    font-size: 18px;
     color: #d1d5db;
+    line-height: 1.6;
+    max-width: 600px;
 }
 
-/* LAYOUT */
-.download-layout {
-    display: grid;
-    grid-template-columns: 360px minmax(0, 1fr);
-    gap: 28px;
+.download-hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
 }
 
-/* VENSTRE SIDE */
-.download-left {
+/* ========================================
+   DOWNLOAD BUTTONS
+   ======================================== */
+.download-btn {
+    padding: 14px 32px;
+    border-radius: 999px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: Inter, system-ui, sans-serif;
+}
+
+.download-btn-primary {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.download-btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+}
+
+.download-btn-secondary {
+    background: transparent;
+    color: #e5e5e5;
+    border: 2px solid #4b5563;
+}
+
+.download-btn-secondary:hover {
+    background: #4b556344;
+    border-color: #6b7280;
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   FAQ SECTION
+   ======================================== */
+.download-faq-section {
+    flex: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 30px;
+    width: 100%;
+}
+
+.download-faq-title {
+    margin: 0 0 32px 0;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    color: #f5f5f5;
+}
+
+.download-faq-container {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.download-section-title {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
+/* ========================================
+   FAQ ACCORDION ITEMS
+   ======================================== */
+.download-faq-item {
+    border: 1px solid #3a3a3a;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+    background: #242424;
 }
 
-.download-text {
-    margin: 4px 0 0 0;
-    font-size: 14px;
-    color: #e5e7eb;
-    line-height: 1.6;
+.download-faq-item:hover {
+    border-color: #4b5563;
 }
 
-.download-text-small {
-    margin: 8px 0 0 0;
-    font-size: 13px;
-    color: #d1d5db;
-    line-height: 1.5;
-}
-
-.download-list {
-    margin: 8px 0 0 18px;
-    padding: 0;
-    font-size: 13px;
-    color: #d1d5db;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-/* HØJRE SIDE */
-.download-right {
-    background: linear-gradient(145deg, #333333, #272727 45%, #1f1f1f);
-    border-radius: 16px;
-    border: 1px solid #3b82f644;
-    padding: 18px 20px;
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-/* DOWNLOAD KNAP */
-.download-download-btn {
-    margin-top: 8px;
-    align-self: flex-start;
-    padding: 10px 22px;
-    border-radius: 999px;
+.download-faq-question {
+    width: 100%;
+    padding: 20px 24px;
+    background: #242424;
     border: none;
-    background: #2563eb;
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 600;
     cursor: pointer;
-    transition: 0.18s ease;
-}
-
-.download-download-btn:hover {
-    background: #1d4ed8;
-}
-
-.download-text-note {
-    margin: 10px 0 0 0;
-    font-size: 13px;
-    color: #d1d5db;
-    line-height: 1.6;
-}
-
-/* Platform links (valgfrit) */
-.download-platforms {
-    margin-top: 12px;
-    font-size: 12px;
-    color: #9ca3af;
-}
-
-.download-platform-links {
-    margin-top: 4px;
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    transition: background 0.2s ease;
+    color: #f5f5f5;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    font-family: Inter, system-ui, sans-serif;
 }
 
-.download-platform-links a {
-    color: #93c5fd;
-    text-decoration: none;
-    font-size: 12px;
+.download-faq-question:hover {
+    background: #2a2a2a;
 }
 
-.download-platform-links a:hover {
-    text-decoration: underline;
+.download-faq-question span:first-child {
+    flex: 1;
+}
+
+.download-faq-icon {
+    display: inline-block;
+    font-size: 14px;
+    color: #9ca3af;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.download-faq-icon.open {
+    transform: rotate(180deg);
+}
+
+.download-faq-answer {
+    padding: 0 24px 20px 24px;
+    background: #1e1e1e;
+    color: #e5e7eb;
+    font-size: 15px;
+    line-height: 1.7;
+    border-top: 1px solid #3a3a3a;
+    animation: slideDown 0.3s ease;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 768px) {
+    .download-hero {
+        padding: 50px 20px;
+    }
+
+    .download-hero-content {
+        gap: 20px;
+    }
+
+    .download-hero-title {
+        font-size: 32px;
+    }
+
+    .download-hero-subtitle {
+        font-size: 16px;
+    }
+
+    .download-hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .download-btn {
+        width: 100%;
+        padding: 14px 24px;
+    }
+
+    .download-faq-section {
+        padding: 40px 20px;
+    }
+
+    .download-faq-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .download-faq-question {
+        padding: 16px;
+        font-size: 15px;
+    }
+
+    .download-faq-answer {
+        padding: 0 16px 16px 16px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+}
+
+@media (max-width: 480px) {
+    .download-hero {
+        padding: 30px 16px;
+    }
+
+    .download-hero-content {
+        gap: 14px;
+    }
+
+    .download-hero-title {
+        font-size: 26px;
+        line-height: 1.2;
+    }
+
+    .download-hero-subtitle {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .download-btn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .download-faq-section {
+        padding: 24px 16px;
+    }
+
+    .download-faq-title {
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+
+    .download-faq-question {
+        padding: 12px;
+        font-size: 14px;
+        gap: 10px;
+    }
+
+    .download-faq-answer {
+        padding: 0 12px 12px 12px;
+        font-size: 13px;
+    }
+
+    .download-faq-icon {
+        font-size: 12px;
+    }
+}
+
+/* iPhone XR and similar devices */
+@media (max-width: 414px) {
+    .download-hero {
+        padding: 25px 12px;
+    }
+
+    .download-hero-content {
+        gap: 12px;
+    }
+
+    .download-hero-title {
+        font-size: 24px;
+    }
+
+    .download-hero-subtitle {
+        font-size: 13px;
+    }
+
+    .download-btn {
+        padding: 11px 18px;
+        font-size: 13px;
+    }
+
+    .download-faq-section {
+        padding: 20px 12px;
+    }
+
+    .download-faq-title {
+        font-size: 18px;
+        margin-bottom: 14px;
+    }
+
+    .download-faq-question {
+        padding: 11px;
+        font-size: 13px;
+    }
+
+    .download-faq-answer {
+        padding: 0 11px 11px 11px;
+        font-size: 12px;
+        line-height: 1.5;
+    }
 }

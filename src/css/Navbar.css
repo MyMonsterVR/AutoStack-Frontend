@@ -66,3 +66,74 @@
 .nav-link-pill:hover {
     background-color: #1d4ed8;
 }
+
+/* ========================================
+   MOBILE RESPONSIVE NAVBAR
+   ======================================== */
+@media (max-width: 768px) {
+    .navbar {
+        height: 60px;
+        padding: 0 12px;
+    }
+
+    .navbar-img {
+        height: 32px;
+        padding-right: 8px;
+    }
+
+    .navbar-links {
+        gap: 8px;
+    }
+
+    .nav-link {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        height: 55px;
+        padding: 0 10px;
+    }
+
+    .navbar-img {
+        height: 28px;
+        padding-right: 6px;
+    }
+
+    .navbar-links {
+        gap: 4px;
+    }
+
+    .nav-link {
+        font-size: 11px;
+        padding: 4px 6px;
+    }
+}
+
+/* iPhone XR and similar (414px) */
+@media (max-width: 414px) {
+    .navbar {
+        height: 50px;
+        padding: 0 8px;
+    }
+
+    .navbar-img {
+        height: 26px;
+        padding-right: 4px;
+    }
+
+    .navbar-links {
+        gap: 3px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-link {
+        font-size: 10px;
+        padding: 4px 5px;
+        white-space: nowrap;
+    }
+}
