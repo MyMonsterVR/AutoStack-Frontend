@@ -4,17 +4,8 @@ import '../css/BrowseStacks.css';
 import '../css/Global.css';
 import {addToStacks} from "../utils/storedStacks";
 import StackSummary from "../components/Global/StackSummary";
+import SkeletonCard from "../components/Global/SkeletonCard";
 import { fetchStacks, SortBy, SortingOrder, StackInfoType } from "../utils/Api/Stacks";
-
-function SkeletonCard() {
-    return (
-        <div className="skeleton-card">
-            <div className="skeleton skeleton-thumb"></div>
-            <div className="skeleton skeleton-title"></div>
-            <div className="skeleton skeleton-sub"></div>
-        </div>
-    );
-}
 
 function BrowseStacks() {
     const [isLoadingDownloaded, setIsLoadingDownloaded] = useState(true);

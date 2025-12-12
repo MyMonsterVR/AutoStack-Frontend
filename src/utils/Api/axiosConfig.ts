@@ -1,5 +1,9 @@
-import axios from "axios";
+import axios, { InternalAxiosRequestConfig } from "axios";
 import { API_BASE_URL } from "./config";
+
+interface RetryableRequest extends InternalAxiosRequestConfig {
+    _retry?: boolean;
+}
 
 // Create axios instance
 const axiosInstance = axios.create({
@@ -15,7 +19,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
-        const originalRequest: any = error.config || {};
+        const originalRequest = (error.config || {}) as RetryableRequest;
         const status = error?.response?.status;
         const url = (originalRequest?.url || '').toLowerCase();
 

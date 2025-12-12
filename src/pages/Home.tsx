@@ -1,21 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import HeroBanner from '../components/Home/HeroBanner';
 import StackSummary from '../components/Global/StackSummary';
+import SkeletonCard from '../components/Global/SkeletonCard';
 import '../css/Home.css';
 import '../css/Global.css'
 import {addToStacks} from '../utils/storedStacks';
 import {NavLink} from "react-router-dom";
 import {fetchStacks, SortBy, SortingOrder, StackInfoType} from '../utils/Api/Stacks';
-
-function SkeletonCard() {
-    return (
-        <div className="skeleton-card">
-            <div className="skeleton skeleton-thumb"></div>
-            <div className="skeleton skeleton-title"></div>
-            <div className="skeleton skeleton-sub"></div>
-        </div>
-    );
-}
 
 function Home() {
     const [trendingStacks, setTrendingStacks] = useState<StackInfoType[]>([]);

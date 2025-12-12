@@ -4,7 +4,7 @@ import apiClient from './axiosConfig';
 export interface BeginSetupResponse {
     setupToken: string;
     manualEntryKey: string;
-    qrCode: number[]; // byte array from backend
+    qrCode: string | number[]; // can be base64 string or byte array from backend
 }
 
 export interface ConfirmSetupResponse {

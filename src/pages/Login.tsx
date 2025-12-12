@@ -4,6 +4,13 @@ import { useAuth } from '../contexts/AuthContext';
 import AutostackLogo from '../images/AutostackLogo.png';
 import '../css/Login.css';
 
+interface LocationState {
+    from?: {
+        pathname: string;
+    };
+    message?: string;
+}
+
 function Login() {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +21,8 @@ function Login() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const from = (location.state as any)?.from?.pathname || '/';
+    const state = location.state as LocationState | null;
+    const from = state?.from?.pathname || '/';
 
     // Redirect if already authenticated
     React.useEffect(() => {
@@ -25,7 +33,7 @@ function Login() {
 
     // Extract message from navigation state (e.g., after registration)
     React.useEffect(() => {
-        const message = (location.state as any)?.message;
+        const message = state?.message;
         if (message) {
             setNavigationMessage(message);
             setMessageType(message.includes('verified') ? 'success' : 'info');

@@ -28,7 +28,7 @@ function TwoFactorSetup({ onComplete, onCancel }: TwoFactorSetupProps) {
 
             // Handle both string (already base64) and array (byte array) formats
             let qrCodeDataUrl = '';
-            const qrCodeData: any = result.qrCode;
+            const qrCodeData = result.qrCode;
 
             if (typeof qrCodeData === 'string') {
                 // Backend returns base64 string

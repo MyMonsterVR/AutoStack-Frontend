@@ -4,6 +4,10 @@ import { useAuth } from '../contexts/AuthContext';
 import AutostackLogo from '../images/AutostackLogo.png';
 import '../css/TwoFactorVerify.css';
 
+interface LocationState {
+    from?: string;
+}
+
 function TwoFactorVerify() {
     const [code, setCode] = useState('');
     const [error, setError] = useState('');
@@ -14,7 +18,8 @@ function TwoFactorVerify() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const from = (location.state as any)?.from || '/';
+    const state = location.state as LocationState | null;
+    const from = state?.from || '/';
 
     // Redirect if not in 2FA flow
     if (!twoFactorRequired) {

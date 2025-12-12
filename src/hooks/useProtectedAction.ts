@@ -13,7 +13,7 @@ interface ProtectedActionError {
 export const useProtectedAction = () => {
     const { user } = useAuth();
     const [showVerificationModal, setShowVerificationModal] = useState(false);
-    const [pendingAction, setPendingAction] = useState<(() => Promise<any>) | null>(null);
+    const [pendingAction, setPendingAction] = useState<(() => Promise<unknown>) | null>(null);
 
     const executeProtected = useCallback(async <T,>(action: () => Promise<T>): Promise<T | null> => {
         try {
