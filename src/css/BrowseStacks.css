@@ -1,26 +1,23 @@
-/* ----------- PAGE WRAPPER ---------- */
 .browse {
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
     background: #1e1e1e;
-    padding: 30px;
-    font-family: Inter, sans-serif;
+    padding: 1.875rem;
 }
 
-/* ---------- HEADER ---------- */
 .browse-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 35px;
+    margin-bottom: 2.1875rem;
 }
 
 .browse-stacks-search {
-    width: 340px;
-    padding: 10px 16px;
-    font-size: 15px;
-    border-radius: 12px;
+    width: 21.25rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.9375rem;
+    border-radius: var(--radius-md);
     border: 1px solid #3a3a3a;
     background: #242424;
     color: #f5f5f5;
@@ -37,19 +34,18 @@
     box-shadow: 0 0 10px #3b82f625;
 }
 
-/* ---------- FILTER BUTTONS ---------- */
 .browse-stacks-filters {
     display: flex;
-    gap: 12px;
+    gap: 0.75rem;
 }
 
 .browse-stacks-filter-btn {
     background: #242424;
     color: #b5b5b5;
-    padding: 8px 16px;
-    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
     border: 1px solid #3a3a3a;
-    font-size: 13px;
+    font-size: 0.8125rem;
     cursor: pointer;
     transition: 0.25s;
 }
@@ -60,28 +56,140 @@
     border-color: #3b82f6;
 }
 
-/* ---------- SECTION BLOCK ---------- */
 .browse-stacks-section {
-    padding: 28px;
+    padding: 1.75rem;
     background: #2a2a2a;
-    border-radius: 18px;
-    margin-bottom: 25px;
+    border-radius: var(--radius-xl);
+    margin-bottom: 1.5625rem;
     box-shadow: 0 4px 25px #00000033;
     border: 1px solid #ffffff05;
 }
 
 .browse-section-title {
     margin: 0;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 600;
     color: #f5f5f5;
 }
 
-/* ---------- STACK GRID ---------- */
 .browse-stack-list {
-    padding-top: 25px;
+    padding-top: 1.5625rem;
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 28px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1.75rem;
+}
+
+@media (max-width: 80rem) {
+    .browse-stack-list {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 64rem) {
+    .browse-stack-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.empty-state {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.empty-state-text {
+    margin: 0;
+    font-size: 1.125rem;
+    color: #9ca3af;
+}
+
+.pagination {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.pagination-btn {
+    background: #3b82f6;
+    color: #ffffff;
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--radius-md);
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: #2563eb;
+    box-shadow: 0 0 15px #3b82f640;
+    transform: translateY(-2px);
+}
+
+.pagination-btn:disabled {
+    background: #4b5563;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.pagination-info {
+    font-size: 0.9375rem;
+    color: #d1d5db;
+    font-weight: 500;
+}
+
+@media (max-width: 48rem) {
+    .browse {
+        padding: 1rem;
+    }
+
+    .browse-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .browse-stacks-search {
+        width: 100%;
+    }
+
+    .browse-stacks-filters {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .browse-stacks-section {
+        padding: 1rem;
+        border-radius: var(--radius-lg);
+    }
+
+    .browse-section-title {
+        font-size: 1.25rem;
+    }
+
+    .browse-stack-list {
+        gap: 1rem;
+    }
+
+    .pagination {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .pagination-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 30rem) {
+    .browse-stack-list {
+        grid-template-columns: 1fr;
+    }
 }

@@ -15,8 +15,8 @@
 .modal-container {
   background: linear-gradient(145deg, #2a2a2a, #242424);
   border: 1px solid #ffffff08;
-  border-radius: 16px;
-  padding: 28px;
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
   max-width: 90%;
   max-height: 90vh;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
@@ -28,18 +28,33 @@
 }
 
 .modal-sm {
-  width: 400px;
-  min-height: 100px;
+  width: 25rem;
+  min-height: 6.25rem;
 }
 
 .modal-md {
-  width: 500px;
-  min-height: 200px;
+  width: 31.25rem;
+  min-height: 12.5rem;
 }
 
 .modal-lg {
-  width: 650px;
-  min-height: 350px;
+  width: 40.625rem;
+  min-height: 21.875rem;
+}
+
+@media (max-width: 48rem) {
+  .modal-container {
+    padding: 1.25rem;
+    margin: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+
+  .modal-sm,
+  .modal-md,
+  .modal-lg {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 @keyframes fadeIn {

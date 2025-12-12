@@ -1,17 +1,16 @@
 .stack-summary-card {
     position: relative;
     background: linear-gradient(145deg, #3a3a3a, #2b2b2b 40%, #1f1f1f);
-    padding: 15px;
-    border-radius: 18px;
+    padding: 0.9375rem;
+    border-radius: var(--radius-xl);
     border: 1px solid #3b82f644;
     width: 100%;
-    height: 170px;
+    height: 10.625rem;
     box-sizing: border-box;
     color: #f9fafb;
-    font-family: system-ui, sans-serif;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 0.875rem;
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
     transition: 0.22s ease;
     text-decoration: none;
@@ -28,11 +27,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
+    gap: 0.75rem;
 }
 
 .stack-summary-title {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 800;
     margin: 0;
     overflow: hidden;
@@ -41,9 +40,9 @@
 }
 
 .stack-summary-badge {
-    padding: 5px 12px;
-    border-radius: 999px;
-    font-size: 12px;
+    padding: 0.3125rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
     font-weight: 600;
     color: #ffffff;
     white-space: nowrap;
@@ -62,7 +61,7 @@
 }
 
 .stack-summary-description {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #e5e7eb;
     line-height: 1.5;
     overflow: hidden;
@@ -77,14 +76,14 @@
     margin-top: auto;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 14px;
+    gap: 0.625rem;
+    font-size: 0.875rem;
     color: #d1d5db;
 }
 
 .stack-summary-avatar {
-    width: 36px;
-    height: 36px;
+    width: 2.25rem;
+    height: 2.25rem;
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid #3b82f688;
@@ -92,9 +91,35 @@
 }
 
 .stack-summary-username {
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+@media (max-width: 48rem) {
+    .stack-summary-card {
+        height: auto;
+        min-height: 10rem;
+        padding: 1rem;
+    }
+
+    .stack-summary-title {
+        font-size: 1rem;
+    }
+
+    .stack-summary-badge {
+        padding: 0.25rem 0.625rem;
+        font-size: 0.6875rem;
+    }
+
+    .stack-summary-avatar {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .stack-summary-username {
+        font-size: 0.8125rem;
+    }
 }

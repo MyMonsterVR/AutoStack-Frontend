@@ -1,8 +1,7 @@
 .create-stack {
     min-height: 100dvh;
     background: #1e1e1e;
-    padding: 30px;
-    font-family: Inter, system-ui, sans-serif;
+    padding: 1.875rem;
     color: #f5f5f5;
     display: flex;
     justify-content: center;
@@ -11,38 +10,57 @@
 
 .create-stack-card {
     width: 100%;
-    max-width: 1400px;
+    max-width: 87.5rem;
     background: #2a2a2a;
-    border-radius: 20px;
-    padding: 24px 28px 20px;
+    border-radius: var(--radius-xl);
+    padding: 1.5rem 1.75rem 1.25rem;
     border: 1px solid #ffffff10;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 1.25rem;
+}
+
+.create-stack-error {
+    color: #d32f2f;
+    background-color: #ffebee;
+    padding: 0.75rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.create-stack-error-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.create-stack-error-list {
+    margin: 0.5rem 0 0 0;
+    padding-left: 1.25rem;
 }
 
 .create-stack-header {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 0.375rem;
 }
 
 .create-stack-title-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
 }
 
 .create-stack-name-input {
     flex: 1;
-    padding: 10px 14px;
-    border-radius: 12px;
+    padding: 0.625rem 0.875rem;
+    border-radius: var(--radius-md);
     border: 1px solid #3a3a3a;
     background: #242424;
     color: #f5f5f5;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 700;
 }
 
@@ -56,10 +74,10 @@
 }
 
 .create-stack-type-select {
-    padding: 8px 16px;
-    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-full);
     border: none;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 600;
     background: #3b82f6;
     color: #ffffff;
@@ -68,7 +86,7 @@
 
 .create-stack-author {
     margin: 0;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #d1d5db;
 }
 
@@ -78,14 +96,14 @@
 
 .create-stack-layout {
     display: grid;
-    grid-template-columns: 260px minmax(0, 1fr);
-    gap: 28px;
+    grid-template-columns: 16.25rem minmax(0, 1fr);
+    gap: 1.75rem;
 }
 
 .create-stack-left {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.625rem;
 }
 
 .create-stack-packages-header {
@@ -96,14 +114,14 @@
 
 .create-stack-packages-title {
     margin: 0;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
 }
 
 .create-stack-add-package {
-    width: 26px;
-    height: 26px;
-    border-radius: 999px;
+    width: 1.625rem;
+    height: 1.625rem;
+    border-radius: var(--radius-full);
     border: none;
     background: #3b82f6;
     color: #ffffff;
@@ -114,16 +132,16 @@
 .create-stack-packages-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
 }
 
 .create-stack-empty-state {
     padding: 2rem;
     text-align: center;
     color: #9ca3af;
-    font-size: 14px;
+    font-size: 0.875rem;
     background: #242424;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     border: 1px dashed #3a3a3a;
 }
 
@@ -131,11 +149,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 0.75rem;
     background: #242424;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     border: 1px solid #3a3a3a;
-    padding: 12px;
+    padding: 0.75rem;
     transition: background 0.2s;
 }
 
@@ -147,16 +165,16 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0.25rem;
     min-width: 0;
 }
 
 .create-stack-package-name {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 0.375rem;
     color: #f5f5f5;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 600;
 }
 
@@ -164,18 +182,18 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     background: #10b981;
     color: white;
     border-radius: 50%;
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: bold;
 }
 
 .create-stack-package-link {
     color: #60a5fa;
-    font-size: 12px;
+    font-size: 0.75rem;
     text-decoration: none;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -187,13 +205,13 @@
 }
 
 .create-stack-package-remove {
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: var(--radius-sm);
     border: none;
     background: #ef4444;
     color: white;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: bold;
     cursor: pointer;
     display: flex;
@@ -214,37 +232,36 @@
 
 .create-stack-right {
     background: linear-gradient(145deg, #333333, #272727 45%, #1f1f1f);
-    border-radius: 16px;
+    border-radius: var(--radius-lg);
     border: 1px solid #3b82f644;
-    padding: 16px 18px;
+    padding: 1rem 1.125rem;
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
     display: flex;
 }
 
 .create-stack-description {
     width: 100%;
-    min-height: 220px;
+    min-height: 13.75rem;
     border: none;
     resize: vertical;
     background: transparent;
     color: #e5e7eb;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 1.6;
     outline: none;
 }
 
-/* footer buttons */
 .create-stack-footer {
-    margin-top: 10px;
+    margin-top: 0.625rem;
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 0.625rem;
 }
 
 .create-stack-btn {
-    padding: 9px 18px;
-    border-radius: 999px;
-    font-size: 14px;
+    padding: 0.5625rem 1.125rem;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
     font-weight: 600;
     border: none;
     cursor: pointer;
@@ -269,6 +286,54 @@
 
 .create-stack-btn.primary:hover {
     background: #1d4ed8;
+}
+
+@media (max-width: 48rem) {
+    .create-stack {
+        padding: 1rem;
+    }
+
+    .create-stack-card {
+        padding: 1rem;
+        border-radius: var(--radius-lg);
+    }
+
+    .create-stack-layout {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .create-stack-title-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .create-stack-name-input {
+        font-size: 1rem;
+    }
+
+    .create-stack-type-select {
+        align-self: flex-start;
+    }
+
+    .create-stack-right {
+        min-height: 10rem;
+    }
+
+    .create-stack-description {
+        min-height: 8rem;
+    }
+
+    .create-stack-footer {
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+    }
+
+    .create-stack-btn {
+        width: 100%;
+        text-align: center;
+    }
 }
 
 

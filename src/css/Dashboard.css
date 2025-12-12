@@ -3,22 +3,21 @@
     display: flex;
     flex-direction: column;
     background: #1e1e1e;
-    padding: 30px;
-    font-family: Inter, sans-serif;
+    padding: 1.875rem;
 }
 
 .my-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 35px;
+    margin-bottom: 2.1875rem;
 }
 
 .my-search {
-    width: 340px;
-    padding: 10px 16px;
-    font-size: 15px;
-    border-radius: 12px;
+    width: 21.25rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.9375rem;
+    border-radius: var(--radius-md);
     border: 1px solid #3a3a3a;
     background: #242424;
     color: #f5f5f5;
@@ -37,10 +36,10 @@
 .my-create {
     background: #3b82f6;
     color: #ffffff;
-    padding: 10px 20px;
-    border-radius: 10px;
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--radius-md);
     border: none;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
     transition: 0.25s;
@@ -53,25 +52,111 @@
 }
 
 .my-stacks-section {
-    padding: 28px;
+    padding: 1.75rem;
     background: #2a2a2a;
-    border-radius: 18px;
-    margin-bottom: 25px;
+    border-radius: var(--radius-xl);
+    margin-bottom: 1.5625rem;
     box-shadow: 0 4px 25px #00000033;
     border: 1px solid #ffffff05;
 }
 
 .my-section-title {
     margin: 0;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 600;
     color: #f5f5f5;
 }
 
 .my-stack-list {
-    padding-top: 25px;
+    padding-top: 1.5625rem;
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 28px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1.75rem;
+}
+
+@media (max-width: 80rem) {
+    .my-stack-list {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 64rem) {
+    .my-stack-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.empty-state {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.empty-state-text {
+    margin: 0;
+    font-size: 1.125rem;
+    color: #9ca3af;
+}
+
+.empty-state-btn {
+    background: #3b82f6;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: none;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.empty-state-btn:hover {
+    background: #2563eb;
+    box-shadow: 0 0 15px #3b82f640;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 48rem) {
+    .stacks {
+        padding: 1rem;
+    }
+
+    .my-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .my-search {
+        width: 100%;
+    }
+
+    .my-create {
+        text-align: center;
+    }
+
+    .my-stacks-section {
+        padding: 1rem;
+        border-radius: var(--radius-lg);
+    }
+
+    .my-section-title {
+        font-size: 1.25rem;
+    }
+
+    .my-stack-list {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 30rem) {
+    .my-stack-list {
+        grid-template-columns: 1fr;
+    }
 }

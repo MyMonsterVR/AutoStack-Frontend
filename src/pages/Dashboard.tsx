@@ -40,9 +40,16 @@ function Dashboard() {
 
                 <div className="my-stacks-section">
                     <h2 className="my-section-title">My Stacks</h2>
-                    <div className="my-stack-list">
-                        {stackSummariesByDate}
-                    </div>
+                    {userStacks.length === 0 ? (
+                        <div className="empty-state">
+                            <p className="empty-state-text">You haven't created any stacks yet.</p>
+                            <NavLink to="/CreateStack" className="empty-state-btn">Create Your First Stack</NavLink>
+                        </div>
+                    ) : (
+                        <div className="my-stack-list">
+                            {stackSummariesByDate}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

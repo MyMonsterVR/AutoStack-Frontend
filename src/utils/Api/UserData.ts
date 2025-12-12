@@ -19,13 +19,11 @@ export const fetchUserData = async (): Promise<UserDataResponse> => {
     try {
         const response = await axiosInstance.get(`${API_BASE_URL}/user/me`);
         const payload = response.data?.data ?? {};
-        console.log('fetchUserData response:', response.status, payload);
         return {
             success: true,
             data: payload
         };
     } catch (error: any) {
-        console.error('fetchUserData failed:', error.response?.status, error.response?.data, error.message);
         return {
             success: false,
             message: error.response?.data?.message || "Failed to fetch user data."

@@ -94,7 +94,6 @@ export const logoutUser = async (): Promise<void> => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
     } catch (error) {
-        console.error("Logout error:", error);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
     }
@@ -108,10 +107,8 @@ export const refreshToken = async (): Promise<AuthResponse> => {
             { withCredentials: true }
         );
 
-        console.log('refreshToken response:', response.status, response.data);
         return { success: true };
     } catch (error: any) {
-        console.error('refreshToken failed:', error.response?.status, error.response?.data, error.message);
         return { success: false, message: "Session expired. Please log in again." };
     }
 };

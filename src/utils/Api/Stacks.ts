@@ -40,13 +40,13 @@ export interface StackResponseSuccess {
     success: boolean;
     data: {
         items: StackInfoType[];
-    },
-    totalCount: number,
-    pageNumber: number,
-    pageSize: number,
-    totalPages: number,
-    hasPreviousPage: false,
-    hasNextPage: true,
+        totalCount: number;
+        pageNumber: number;
+        pageSize: number;
+        totalPages: number;
+        hasPreviousPage: boolean;
+        hasNextPage: boolean;
+    }
 }
 
 interface StackResponseError {

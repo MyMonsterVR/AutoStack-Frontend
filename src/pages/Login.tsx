@@ -84,42 +84,19 @@ function Login() {
                 <p className="login-subtitle">Sign in to your AutoStack account</p>
 
                 {navigationMessage && messageType === 'success' && (
-                    <div style={{
-                        color: '#2e7d32',
-                        backgroundColor: '#e8f5e9',
-                        padding: '0.75rem',
-                        borderRadius: '8px',
-                        marginBottom: '1rem',
-                        fontSize: '0.9rem',
-                        border: '1px solid #2e7d32'
-                    }}>
+                    <div className="login-message-success">
                         {navigationMessage}
                     </div>
                 )}
 
                 {navigationMessage && messageType === 'info' && (
-                    <div style={{
-                        color: '#1976d2',
-                        backgroundColor: '#e3f2fd',
-                        padding: '0.75rem',
-                        borderRadius: '8px',
-                        marginBottom: '1rem',
-                        fontSize: '0.9rem',
-                        border: '1px solid #1976d2'
-                    }}>
+                    <div className="login-message-info">
                         {navigationMessage}
                     </div>
                 )}
 
                 {error && (
-                    <div style={{
-                        color: '#d32f2f',
-                        backgroundColor: '#ffebee',
-                        padding: '0.75rem',
-                        borderRadius: '4px',
-                        marginBottom: '1rem',
-                        fontSize: '0.9rem'
-                    }}>
+                    <div className="login-message-error">
                         {error}
                     </div>
                 )}

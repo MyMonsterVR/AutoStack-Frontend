@@ -112,17 +112,10 @@ function CreateStack() {
             <form className="create-stack-card" onSubmit={handleSubmit}>
                 <div className="create-stack-header">
                     {error && (
-                        <div style={{
-                            color: '#d32f2f',
-                            backgroundColor: '#ffebee',
-                            padding: '0.75rem',
-                            borderRadius: '4px',
-                            marginBottom: '1rem',
-                            fontSize: '0.9rem'
-                        }}>
-                            <div style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>{error}</div>
+                        <div className="create-stack-error">
+                            <div className="create-stack-error-title">{error}</div>
                             {Object.keys(validationErrors).length > 0 && (
-                                <ul style={{ margin: '0.5rem 0 0 0', paddingLeft: '1.25rem' }}>
+                                <ul className="create-stack-error-list">
                                     {Object.entries(validationErrors).map(([field, errors]) => (
                                         errors.map((errorMsg, index) => (
                                             <li key={`${field}-${index}`}>{errorMsg}</li>

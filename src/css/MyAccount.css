@@ -1,65 +1,60 @@
-/* ----------- PAGE WRAPPER ---------- */
 .my-account {
     min-height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     background: #1e1e1e;
-    padding: 50px 30px;
-    font-family: Inter, sans-serif;
+    padding: 3.125rem 1.875rem;
 }
 
 .my-account-container {
-    max-width: 700px;
+    max-width: 43.75rem;
     width: 100%;
 }
 
-/* ---------- HEADER ---------- */
 .my-account-header {
-    margin-bottom: 40px;
+    margin-bottom: 2.5rem;
     text-align: center;
 }
 
 .my-account-title {
     margin: 0;
-    font-size: 36px;
+    font-size: 2.25rem;
     font-weight: 600;
     color: #f5f5f5;
 }
 
 .my-account-subtitle {
-    margin: 12px 0 0 0;
-    font-size: 15px;
+    margin: 0.75rem 0 0 0;
+    font-size: 0.9375rem;
     color: #7c7c7c;
 }
 
-/* ---------- SECTION BLOCK ---------- */
 .my-account-section {
-    padding: 32px;
+    padding: 2rem;
     background: #2a2a2a;
-    border-radius: 18px;
-    margin-bottom: 28px;
+    border-radius: var(--radius-xl);
+    margin-bottom: 1.75rem;
     box-shadow: 0 4px 25px #00000033;
     border: 1px solid #ffffff05;
 }
 
 .my-account-section-title {
-    margin: 0 0 24px 0;
-    font-size: 22px;
+    margin: 0 0 1.5rem 0;
+    font-size: 1.375rem;
     font-weight: 600;
     color: #f5f5f5;
 }
 
 .my-account-section-subtitle {
-    margin: 0 0 20px 0;
-    font-size: 14px;
+    margin: 0 0 1.25rem 0;
+    font-size: 0.875rem;
     color: #7c7c7c;
     line-height: 1.5;
 }
 
-/* ---------- FORM FIELDS ---------- */
 .my-account-field {
-    margin-bottom: 22px;
+    margin-bottom: 1.375rem;
 }
 
 .my-account-field:last-of-type {
@@ -68,17 +63,17 @@
 
 .my-account-field label {
     display: block;
-    margin-bottom: 10px;
-    font-size: 14px;
+    margin-bottom: 0.625rem;
+    font-size: 0.875rem;
     font-weight: 500;
     color: #b5b5b5;
 }
 
 .my-account-field input {
     width: 100%;
-    padding: 13px 18px;
-    font-size: 15px;
-    border-radius: 12px;
+    padding: 0.8125rem 1.125rem;
+    font-size: 0.9375rem;
+    border-radius: var(--radius-md);
     border: 1px solid #3a3a3a;
     background: #242424;
     color: #f5f5f5;
@@ -102,18 +97,17 @@
     opacity: 0.7;
 }
 
-/* ---------- BUTTON ---------- */
 .my-account-btn {
     background: #3b82f6;
     color: #ffffff;
-    padding: 13px 28px;
-    border-radius: 10px;
+    padding: 0.8125rem 1.75rem;
+    border-radius: var(--radius-md);
     border: none;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
     transition: 0.25s;
-    margin-top: 16px;
+    margin-top: 1rem;
 }
 
 .my-account-btn:hover {
@@ -127,22 +121,50 @@
 }
 
 .my-account-avatar-container {
-    margin: 10px 0;
+    margin: 0.625rem 0;
 }
 
 .my-account-avatar {
-    width: 150px;
-    height: 150px;
+    width: 9.375rem;
+    height: 9.375rem;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #ddd;
 }
 
 .my-account-file-input {
-    margin: 10px 0;
-    padding: 8px;
+    margin: 0.625rem 0;
+    padding: 0.5rem;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     width: 100%;
     cursor: pointer;
+}
+
+@media (max-width: 48rem) {
+    .my-account {
+        padding: 1.5rem 1rem;
+    }
+
+    .my-account-title {
+        font-size: 1.75rem;
+    }
+
+    .my-account-section {
+        padding: 1.25rem;
+        border-radius: var(--radius-lg);
+    }
+
+    .my-account-section-title {
+        font-size: 1.25rem;
+    }
+
+    .my-account-avatar {
+        width: 6rem;
+        height: 6rem;
+    }
+
+    .my-account-btn {
+        width: 100%;
+    }
 }
