@@ -3,8 +3,9 @@ import HeroBanner from '../components/Home/HeroBanner';
 import StackSummary from '../components/Global/StackSummary';
 import '../css/Home.css';
 import '../css/Global.css'
-import {stackInfo, subscribeStacks} from '../utils/storedStacks';
+import {addToStacks} from '../utils/storedStacks';
 import {NavLink} from "react-router-dom";
+import {fetchStacks, SortBy, SortingOrder, StackInfoType} from '../utils/Api/Stacks';
 
 function SkeletonCard() {
     return (
@@ -17,32 +18,37 @@ function SkeletonCard() {
 }
 
 function Home() {
-    const [, forceUpdate] = useState({});
+    const [trendingStacks, setTrendingStacks] = useState<StackInfoType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const unsubscribe = subscribeStacks(() => {
-            forceUpdate({});
-            setIsLoading(false);
-        });
+        const loadTrendingStacks = async () => {
+            setIsLoading(true);
 
-        if (stackInfo.size > 0) {
-            setIsLoading(false);
-        }
+            const response = await fetchStacks(
+                SortBy.Popularity,
+                SortingOrder.DESC,
+                undefined,
+                1,
+                5
+            );
 
-        return () => {
-            unsubscribe();
+            if (response.success && 'data' in response) {
+                setTrendingStacks(response.data.items);
+                response.data.items.forEach(stack => addToStacks(stack.id, stack));
+            }
+
+            setIsLoading(false);
         };
+
+        loadTrendingStacks();
     }, []);
 
-    const stackSummaries = Array.from(stackInfo.values())
-        .sort((a,b)=> a.downloads < b.downloads ? 1 : -1)
-        .slice(0,5)
-        .map(info => (
-            <NavLink className="textDecoration-none" to={`/StackInfo/${info.id}`} key={info.id}>
-                <StackSummary id={info.id} />
-            </NavLink>
-        ));
+    const stackSummaries = trendingStacks.map(info => (
+        <NavLink className="textDecoration-none" to={`/StackInfo/${info.id}`} key={info.id}>
+            <StackSummary id={info.id} />
+        </NavLink>
+    ));
 
     return (
         <div className="home">
