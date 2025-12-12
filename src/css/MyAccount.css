@@ -116,6 +116,10 @@
     transform: translateY(-1px);
 }
 
+.delete-account-btn {
+    background: #ef4444;
+}
+
 .my-account-btn:active {
     transform: translateY(0);
 }

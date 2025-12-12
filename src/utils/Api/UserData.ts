@@ -1,4 +1,3 @@
-import axios from "axios";
 import { GUID } from "../global";
 import axiosInstance from "./axiosConfig";
 import { API_BASE_URL } from "./config";
@@ -71,6 +70,21 @@ export const uploadAvatar = async (file: File): Promise<UserDataResponse> => {
         return {
             success: false,
             message: error.response?.data?.message || "Failed to upload avatar."
+        };
+    }
+};
+
+export const deleteUserAccount = async (): Promise<{ success: boolean; message?: string }> => {
+    try {
+        const response = await axiosInstance.delete(`${API_BASE_URL}/user/deleteaccount`);
+        return {
+            success: true,
+            message: "Account deleted successfully."
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.response?.data?.message
         };
     }
 };

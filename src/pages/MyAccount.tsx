@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { fetchUserData, editUser, uploadAvatar } from '../utils/Api/UserData';
+import { fetchUserData, editUser, uploadAvatar, deleteUserAccount } from '../utils/Api/UserData';
 import { GUID } from '../utils/global';
 import { useNavigate } from 'react-router-dom';
 import TwoFactorStatus from '../components/TwoFactor/TwoFactorStatus';
@@ -9,7 +9,7 @@ import EmailVerificationModal from '../components/EmailVerification/EmailVerific
 import '../css/MyAccount.css';
 
 function MyAccount() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [userData, setUserData] = useState<{
         id: GUID;
@@ -181,6 +181,25 @@ function MyAccount() {
             setUserData(response.data);
         }
     };
+
+    const handleDeleteUser = async () => {
+        const confirmed = window.confirm(
+            'Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently deleted.'
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        const response = await deleteUserAccount();
+        if (response.success) {
+            // Logout and redirect to home page
+            await logout();
+            navigate('/');
+        } else {
+            setProfileError(response.message || 'Failed to delete account');
+        }
+    }
 
     if (loading) {
         return <div>Loading...</div>;
@@ -360,6 +379,10 @@ function MyAccount() {
                         Add an extra layer of security to your account by requiring a verification code from your authenticator app.
                     </p>
                     <TwoFactorStatus />
+                </div>
+
+                <div className="my-account-section">
+                    <button className="my-account-btn delete-account-btn" onClick={handleDeleteUser}>Delete Account</button>
                 </div>
             </div>
         </div>
