@@ -13,7 +13,6 @@ export enum SortingOrder {
 export enum SortBy
 {
     Popularity,
-    Rating,
     PostedDate,
 }
 

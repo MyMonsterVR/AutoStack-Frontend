@@ -195,23 +195,11 @@ function BrowseStacks() {
                             </div>
                             {recentTotalPages > 1 && (
                                 <div className="pagination">
-                                    <button
-                                        className="pagination-btn"
-                                        onClick={handleRecentPrev}
-                                        disabled={!recentHasPrev}
-                                    >
-                                        Previous
-                                    </button>
+                                    <button className="pagination-btn" onClick={handleRecentPrev} disabled={!recentHasPrev}>Previous</button>
                                     <span className="pagination-info">
                                         Page {recentPage} of {recentTotalPages}
                                     </span>
-                                    <button
-                                        className="pagination-btn"
-                                        onClick={handleRecentNext}
-                                        disabled={!recentHasNext}
-                                    >
-                                        Next
-                                    </button>
+                                    <button className="pagination-btn" onClick={handleRecentNext} disabled={!recentHasNext}>Next</button>
                                 </div>
                             )}
                         </>
